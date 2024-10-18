@@ -1,11 +1,9 @@
-package org.firstinspires.ftc.teamcode.teleop;
+package org.firstinspires.ftc.teamcode.ro025.TeleOp;
 
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.teamcode.DriveTrain.DriveTrain;
+import org.firstinspires.ftc.teamcode.ro025.DriveTrain.DriveTrain;
 
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "TeleOp25")
 public class TeleOP extends OpMode {
