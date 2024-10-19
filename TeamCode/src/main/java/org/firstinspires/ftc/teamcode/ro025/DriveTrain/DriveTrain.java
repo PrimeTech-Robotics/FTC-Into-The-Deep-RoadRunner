@@ -7,18 +7,20 @@ import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.har
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 public class DriveTrain {
+    private static DriveTrain instance = null;
     DcMotor leftBack = null;
     DcMotor leftFront = null;
     DcMotor rightBack = null;
     DcMotor rightFront = null;
-    private static DriveTrain instance=null;
-    public static synchronized DriveTrain getInstance(){ //creezi o instanta
-        if(instance == null){
+
+    public static synchronized DriveTrain getInstance() { //creezi o instanta
+        if (instance == null) {
             instance = new DriveTrain();
         }
         return instance;
     }
-    public void init(){// atribui motoarele de drive
+
+    public void init() {// atribui motoarele de drive
         leftBack = hardwareMap.get(DcMotor.class, "leftBack");
         leftBack.setZeroPowerBehavior(BRAKE);
 
@@ -34,7 +36,8 @@ public class DriveTrain {
         rightFront = hardwareMap.get(DcMotor.class, "rightFront");
         rightFront.setZeroPowerBehavior(BRAKE);
     }
-    public void loop(){//miscare driver train
+
+    public void loop() {//miscare driver train
         double y = -gamepad1.left_stick_y; // Y stick inversat
         double x = gamepad1.left_stick_x;
         double rx = gamepad1.right_stick_x;
