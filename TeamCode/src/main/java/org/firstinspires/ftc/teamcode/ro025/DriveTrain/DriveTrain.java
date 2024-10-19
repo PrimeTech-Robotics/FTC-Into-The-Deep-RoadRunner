@@ -13,7 +13,7 @@ public class DriveTrain {
     DcMotor rightFront = null;
     private static DriveTrain instance=null;
     public static synchronized DriveTrain getInstance(){ //creezi o instanta
-        if(instance== null){
+        if(instance == null){
             instance = new DriveTrain();
         }
         return instance;
