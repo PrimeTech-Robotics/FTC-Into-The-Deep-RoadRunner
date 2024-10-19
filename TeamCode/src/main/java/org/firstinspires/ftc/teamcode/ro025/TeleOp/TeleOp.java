@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.ro025.Gamepad.GamepadClass;
 import org.firstinspires.ftc.teamcode.ro025.Outtake.OutTake;
 
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "TeleOp25")
-public class TeleOP extends OpMode {
+public class TeleOp extends OpMode {
 
     @Override
     public void init(){
