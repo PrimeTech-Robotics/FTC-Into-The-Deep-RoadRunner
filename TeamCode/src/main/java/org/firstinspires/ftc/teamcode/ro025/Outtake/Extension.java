@@ -5,14 +5,14 @@ import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.har
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
-public class Extindere {
-    private static Extindere instance = null;
+public class Extension {
+    private static Extension instance = null;
     DcMotorEx m1 = null;
     DcMotorEx m2 = null;
 
-    public static synchronized Extindere getInstance() { //creezi o instanta
+    public static synchronized Extension getInstance() { //creezi o instanta
         if (instance == null) {
-            instance = new Extindere();
+            instance = new Extension();
         }
         return instance;
     }

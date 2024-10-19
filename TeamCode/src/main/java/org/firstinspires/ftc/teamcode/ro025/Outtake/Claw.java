@@ -8,9 +8,9 @@ import org.firstinspires.ftc.teamcode.ro025.Gamepad.GamepadClass;
 
 public class Claw {
     private static Claw instance = null;
-    Servo servoDeschidere = null;
-    Servo servoRotatie = null;
-    Servo servoFataSpate = null;
+    Servo openingServo = null;
+    Servo rotationServo = null;
+    Servo frontBackServo = null;
 
     public static synchronized Claw getInstance() { //creezi o instanta
         if (instance == null) {
@@ -20,11 +20,11 @@ public class Claw {
     }
 
     public void init() {
-        servoDeschidere = hardwareMap.get(Servo.class, "servoDeschidere");
+        openingServo = hardwareMap.get(Servo.class, "openingServo");
 
-        servoRotatie = hardwareMap.get(Servo.class, "servoRotatie");
+        rotationServo = hardwareMap.get(Servo.class, "rotationServo");
 
-        servoFataSpate = hardwareMap.get(Servo.class, "servoFataSpate");
+        frontBackServo = hardwareMap.get(Servo.class, "frontBackServo");
     }
 
     public void loop() {
