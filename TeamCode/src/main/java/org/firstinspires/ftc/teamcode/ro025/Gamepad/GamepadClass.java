@@ -29,8 +29,6 @@ public class GamepadClass {
     public boolean triangle(){
         return (currentGamepad.triangle && !previousGamepad.triangle);
     }
-    public boolean square(){
-        return (currentGamepad.square && !previousGamepad.square);
-    }
+    public boolean square(){return (currentGamepad.square && !previousGamepad.square);}
 
 }
