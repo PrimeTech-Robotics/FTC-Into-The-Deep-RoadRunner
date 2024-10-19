@@ -11,6 +11,7 @@ public class TeleOP extends OpMode {
     @Override
     public void init(){
         DriveTrain.getInstance().init();
+
     }
     public void loop(){
         DriveTrain.getInstance().loop();
