@@ -34,6 +34,7 @@ public class Claw {
         if (GamepadClass.getInstance().square()) {
             ///FSM intre fata spate
         }
-        ///Mai trebuie rotatie ( ne intelegem cum o facem )
+
+        //TODO trebuie rotatie (ne intelegem cum o facem)
     }
 }
