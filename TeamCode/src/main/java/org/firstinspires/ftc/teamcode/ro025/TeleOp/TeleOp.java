@@ -11,13 +11,12 @@ import org.firstinspires.ftc.teamcode.ro025.Outtake.OutTake;
 public class TeleOp extends OpMode {
 
     @Override
-    public void init() {
+    public void init(){
         DriveTrain.getInstance().init();
         GamepadClass.getInstance().init();
         OutTake.getInstance().init();
     }
-
-    public void loop() {
+    public void loop(){
         DriveTrain.getInstance().loop();
         GamepadClass.getInstance().loop();
         OutTake.getInstance().loop();
