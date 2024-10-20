@@ -17,7 +17,7 @@ public class Pivot {
     }
 
     public void init() {
-        motorPivot = hardwareMap.get(DcMotorEx.class , "motorPivot");
+        motorPivot = hardwareMap.get(DcMotorEx.class, "motorPivot");
 
     }
     //PID stuff
