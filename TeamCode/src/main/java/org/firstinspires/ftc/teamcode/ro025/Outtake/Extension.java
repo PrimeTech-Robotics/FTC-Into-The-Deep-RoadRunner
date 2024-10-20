@@ -7,8 +7,8 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 public class Extension {
     private static Extension instance = null;
-    DcMotorEx m1 = null;
-    DcMotorEx m2 = null;
+    DcMotorEx extindere_left = null;
+    DcMotorEx extindere_right = null;
 
     public static synchronized Extension getInstance() { //creezi o instanta
         if (instance == null) {
@@ -18,8 +18,10 @@ public class Extension {
     }
 
     public void init() {
-        m1 = hardwareMap.get(DcMotorEx.class, "m1_left");
-        m1.setDirection(DcMotorSimple.Direction.REVERSE);
-        m2 = hardwareMap.get(DcMotorEx.class, "m2_right");
+        extindere_left = hardwareMap.get(DcMotorEx.class, "extindere_left");
+        extindere_right.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        extindere_right = hardwareMap.get(DcMotorEx.class, "extindere_right");
     }
+    //PID stuff
 }
