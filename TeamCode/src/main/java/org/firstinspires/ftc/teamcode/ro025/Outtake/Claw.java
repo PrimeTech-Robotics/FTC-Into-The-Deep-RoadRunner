@@ -27,13 +27,23 @@ public class Claw {
 
     FrontBackState frontBackState = FrontBackState.FRONT;
 
+    enum LeftRightState {
+        RIGHT, LEFT, INRANGE
+    }
+
+    LeftRightState leftRightState = LeftRightState.INRANGE;
+
     //Servo positions
     //TODO: adjust with actual values
     final double OPEN_POS = 1.0;
     final double CLOSED_POS = 0.0;
+
     final double FRONT_POS = 1.0;
     final double BACK_POS = 0.0;
+
     final double ROTATION_INCREMENT = 0.0;
+    final double RIGHT_FINAL_STATE = 0.0;
+    final double LEFT_FINAL_STATE = 0.0;
 
     public static synchronized Claw getInstance() {
         if (instance == null) {
@@ -87,6 +97,41 @@ public class Claw {
                 break;
         }
 
-        //TODO trebuie rotatie (ne intelegem cum o facem)
+        // Left/right movement FSM
+        switch (leftRightState) {
+            case RIGHT:
+                if (GamepadClass.getInstance().left_bumper()){
+                    // Transition to INRANGE state
+                    rotationServo.setPosition(rotationServo.getPosition() - ROTATION_INCREMENT);
+                    leftRightState = LeftRightState.INRANGE;
+                }
+                break;
+            case LEFT:
+                if (GamepadClass.getInstance().right_bumper()){
+                    // Transition to INRANGE state
+                    rotationServo.setPosition(rotationServo.getPosition() + ROTATION_INCREMENT);
+                    leftRightState = LeftRightState.INRANGE;
+                }
+                break;
+            case INRANGE:
+                if (GamepadClass.getInstance().left_bumper()){
+                    rotationServo.setPosition(rotationServo.getPosition() - ROTATION_INCREMENT);
+                    if (rotationServo.getPosition() <= LEFT_FINAL_STATE) {
+                        // Transition to LEFT state
+                        rotationServo.setPosition(LEFT_FINAL_STATE);
+                        leftRightState = LeftRightState.LEFT;
+                    }
+                }
+                if (GamepadClass.getInstance().right_bumper()){
+                    rotationServo.setPosition(rotationServo.getPosition() + ROTATION_INCREMENT);
+                    if (rotationServo.getPosition() >= RIGHT_FINAL_STATE){
+                        // Transition to RIGHT state
+                        rotationServo.setPosition(RIGHT_FINAL_STATE);
+                        leftRightState = LeftRightState.RIGHT;
+                    }
+                }
+                break;
+        }
+
     }
 }
