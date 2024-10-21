@@ -33,6 +33,7 @@ public class Claw {
     final double CLOSED_POS = 0.0;
     final double FRONT_POS = 1.0;
     final double BACK_POS = 0.0;
+    final double ROTATION_INCREMENT = 0.0;
 
     public static synchronized Claw getInstance() {
         if (instance == null) {

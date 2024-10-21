@@ -36,4 +36,7 @@ public class GamepadClass {
         return (currentGamepad.square && !previousGamepad.square);
     }
 
+    public boolean left_bumper(){ return (currentGamepad.left_bumper); }
+
+    public boolean right_bumper(){ return (currentGamepad.right_bumper); }
 }
