@@ -54,6 +54,7 @@ public class Claw {
 
     public void init() {
         openingServo = hardwareMap.get(Servo.class, "openingServo");
+        // TODO: setare pozitii initiale
         rotationServo = hardwareMap.get(Servo.class, "rotationServo");
         frontBackServo = hardwareMap.get(Servo.class, "frontBackServo");
 
@@ -132,6 +133,5 @@ public class Claw {
                 }
                 break;
         }
-
     }
 }
