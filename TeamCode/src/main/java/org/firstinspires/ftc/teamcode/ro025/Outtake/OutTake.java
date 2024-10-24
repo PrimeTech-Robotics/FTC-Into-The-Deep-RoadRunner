@@ -12,13 +12,13 @@ public class OutTake {
 
     public void init() {
         Claw.getInstance().init();
-        //apelare Extindere init ( ne trebuie PID )
-        //apelare Pivot init ( ne trebuie PID )
+        Extension.getInstance().init();
+        Pivot.getInstance().init();
     }
 
     public void loop() {
         Claw.getInstance().loop();
-        //apelare Extindere loop ( ne trebuie PID )
-        //apelare Pivot loop ( ne trebuie PID )
+        Extension.getInstance().loop();
+        Pivot.getInstance().loop();
     }
 }
