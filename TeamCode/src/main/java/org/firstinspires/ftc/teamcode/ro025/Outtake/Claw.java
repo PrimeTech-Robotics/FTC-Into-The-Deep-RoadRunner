@@ -11,7 +11,8 @@ public class Claw {
     private static Claw instance = null;
     Servo openingServo = null;
     Servo rotationServo = null;
-    Servo frontBackServo = null;
+    Servo frontBackServo_left = null; // ne trebuie 2 servouri de back front ca o sa avem 2 slidere
+    Servo frontBackServo_right = null;
 
     private final ElapsedTime actionTimer = new ElapsedTime();
 
@@ -56,7 +57,8 @@ public class Claw {
         openingServo = hardwareMap.get(Servo.class, "openingServo");
         // TODO: setare pozitii initiale
         rotationServo = hardwareMap.get(Servo.class, "rotationServo");
-        frontBackServo = hardwareMap.get(Servo.class, "frontBackServo");
+        frontBackServo_left = hardwareMap.get(Servo.class, "frontBackServo_left");
+        frontBackServo_right = hardwareMap.get(Servo.class, "frontBackServo_right");
 
         actionTimer.reset();
     }
@@ -85,14 +87,16 @@ public class Claw {
             case FRONT:
                 if (GamepadClass.getInstance().square()) {
                     // Transition to BACK state
-                    frontBackServo.setPosition(BACK_POS);
+                    frontBackServo_right.setPosition(BACK_POS);
+                    frontBackServo_left.setPosition(FRONT_POS);// s-ar putea sa le schimbam
                     frontBackState = FrontBackState.BACK;
                 }
                 break;
             case BACK:
                 if (GamepadClass.getInstance().square()) {
                     // Transition to FRONT state
-                    frontBackServo.setPosition(FRONT_POS);
+                    frontBackServo_right.setPosition(FRONT_POS);
+                    frontBackServo_left.setPosition(BACK_POS); // s-ar putea sa le schimbam
                     frontBackState = FrontBackState.FRONT;
                 }
                 break;
