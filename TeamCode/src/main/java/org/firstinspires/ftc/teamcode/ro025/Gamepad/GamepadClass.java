@@ -9,7 +9,7 @@ public class GamepadClass {
     Gamepad currentGamepad = null;
     Gamepad previousGamepad = null;
 
-    public static synchronized GamepadClass getInstance() { //creezi o instanta
+    public static synchronized GamepadClass getInstance() {
         if (instance == null) {
             instance = new GamepadClass();
         }

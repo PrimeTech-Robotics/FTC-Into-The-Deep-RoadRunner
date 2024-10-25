@@ -11,7 +11,7 @@ public class Claw {
     private static Claw instance = null;
     Servo openingServo = null;
     Servo rotationServo = null;
-    Servo frontBackServo_left = null; // ne trebuie 2 servouri de back front ca o sa avem 2 slidere
+    Servo frontBackServo_left = null;
     Servo frontBackServo_right = null;
 
     private final ElapsedTime actionTimer = new ElapsedTime();
@@ -34,8 +34,8 @@ public class Claw {
 
     LeftRightState leftRightState = LeftRightState.INRANGE;
 
-    //Servo positions
-    //TODO: adjust with actual values
+    // Servo positions
+    // TODO: Adjust with actual positions
     final double OPEN_POS = 1.0;
     final double CLOSED_POS = 0.0;
 
@@ -55,7 +55,6 @@ public class Claw {
 
     public void init() {
         openingServo = hardwareMap.get(Servo.class, "openingServo");
-        // TODO: setare pozitii initiale
         rotationServo = hardwareMap.get(Servo.class, "rotationServo");
         frontBackServo_left = hardwareMap.get(Servo.class, "frontBackServo_left");
         frontBackServo_right = hardwareMap.get(Servo.class, "frontBackServo_right");
@@ -88,7 +87,7 @@ public class Claw {
                 if (GamepadClass.getInstance().square()) {
                     // Transition to BACK state
                     frontBackServo_right.setPosition(BACK_POS);
-                    frontBackServo_left.setPosition(FRONT_POS);// s-ar putea sa le schimbam
+                    frontBackServo_left.setPosition(FRONT_POS);
                     frontBackState = FrontBackState.BACK;
                 }
                 break;
@@ -96,7 +95,7 @@ public class Claw {
                 if (GamepadClass.getInstance().square()) {
                     // Transition to FRONT state
                     frontBackServo_right.setPosition(FRONT_POS);
-                    frontBackServo_left.setPosition(BACK_POS); // s-ar putea sa le schimbam
+                    frontBackServo_left.setPosition(BACK_POS);
                     frontBackState = FrontBackState.FRONT;
                 }
                 break;

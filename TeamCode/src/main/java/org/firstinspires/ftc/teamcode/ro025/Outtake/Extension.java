@@ -16,9 +16,10 @@ public class Extension {
     public static double p = 0, i = 0, d = 0;
     public static double f = 0;
     public static double target = 0;
-    public final double MAX_TICKS = 0; //setam mai incolo
-    public final double MIN_TICKS = 0; //setam mai incolo
-    public final double increment = 0; //setam mai incolo
+    // TODO: Adjust with actual values
+    public final double MAX_TICKS = 0;
+    public final double MIN_TICKS = 0;
+    public final double increment = 0;
 
     enum LiftState {
         MAX, INRANGE, MIN
@@ -31,7 +32,7 @@ public class Extension {
 
     private static Extension instance = null;
 
-    public static synchronized Extension getInstance() { //creezi o instanta
+    public static synchronized Extension getInstance() {
         if (instance == null) {
             instance = new Extension();
         }
@@ -85,8 +86,9 @@ public class Extension {
         controller.setPID(p, i, d);
         int lift_pos = extindere_left.getCurrentPosition();
         double pid = controller.calculate(lift_pos, target);
-        //mai trebuie sa vorbesc cu sover de feedforward
         double power = pid;
+
+        // TODO: Discuss FeedForward
 
         extindere_right.setPower(power);
         extindere_left.setPower(power);

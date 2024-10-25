@@ -14,9 +14,10 @@ public class Pivot {
     public static double p = 0, i = 0, d = 0;
     public static double f = 0;
     public static double target = 0;
-    public final double MAX_TICKS = 0; //setam mai incolo
-    public final double MIN_TICKS = 0; //setam mai incolo
-    public final double increment = 0; //setam mai incolo
+    // TODO: Adjust with actual values
+    public final double MAX_TICKS = 0;
+    public final double MIN_TICKS = 0;
+    public final double increment = 0;
 
     enum LiftState {
         MAX, INRANGE, MIN
@@ -28,7 +29,7 @@ public class Pivot {
 
     private static Pivot instance = null;
 
-    public static synchronized Pivot getInstance() { //creezi o instanta
+    public static synchronized Pivot getInstance() {
         if (instance == null) {
             instance = new Pivot();
         }
@@ -80,8 +81,9 @@ public class Pivot {
         controller.setPID(p, i, d);
         int pivot_pos = motorPivot.getCurrentPosition();
         double pid = controller.calculate(pivot_pos, target);
-        //mai trebuie sa vorbesc cu sover de feedforward
         double power = pid;
+
+        // TODO: Discuss FeedForward
 
         motorPivot.setPower(power);
 

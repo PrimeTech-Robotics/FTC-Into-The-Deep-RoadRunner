@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.ro025.Outtake;
 public class OutTake {
     private static OutTake instance = null;
 
-    public static synchronized OutTake getInstance() { //creezi o instanta
+    public static synchronized OutTake getInstance() {
         if (instance == null) {
             instance = new OutTake();
         }

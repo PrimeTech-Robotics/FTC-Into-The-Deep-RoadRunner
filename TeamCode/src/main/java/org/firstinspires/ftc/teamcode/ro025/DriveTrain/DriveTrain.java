@@ -40,7 +40,8 @@ public class DriveTrain {
         rightFront.setZeroPowerBehavior(BRAKE);
     }
 
-    public void loop() {//drivetrain movement
+    public void loop() {
+        // Drivetrain gamepad control
         double y = -gamepad1.left_stick_y; // inverted Y stick
         double x = gamepad1.left_stick_x;
         double rx = gamepad1.right_stick_x;
