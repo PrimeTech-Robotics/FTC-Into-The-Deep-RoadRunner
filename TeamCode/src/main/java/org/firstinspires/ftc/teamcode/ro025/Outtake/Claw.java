@@ -92,7 +92,7 @@ public class Claw {
         // Front/back movement FSM
         switch (frontBackState) {
             case FRONT:
-                if (GamepadClass.getInstance().square()) {
+                if (GamepadClass.getInstance().triangle()) {
                     // Transition to BACK state
                     frontBackServo_right.setPosition(BACK_POS);
                     frontBackServo_left.setPosition(FRONT_POS);
@@ -100,7 +100,7 @@ public class Claw {
                 }
                 break;
             case BACK:
-                if (GamepadClass.getInstance().square()) {
+                if (GamepadClass.getInstance().triangle()) {
                     // Transition to FRONT state
                     frontBackServo_right.setPosition(FRONT_POS);
                     frontBackServo_left.setPosition(BACK_POS);
