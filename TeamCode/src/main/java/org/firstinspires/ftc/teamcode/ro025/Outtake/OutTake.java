@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.ro025.Outtake;
 
+import org.firstinspires.ftc.teamcode.ro025.Gamepad.GamepadClass;
+
 public class OutTake {
     private static OutTake instance = null;
 
@@ -20,5 +22,8 @@ public class OutTake {
         Claw.getInstance().loop();
         Extension.getInstance().loop();
         Pivot.getInstance().loop();
+        if(GamepadClass.getInstance().circle()){
+            Init_pos.getInstance().return_to_init_pos();
+        }
     }
 }

@@ -36,6 +36,10 @@ public class GamepadClass {
         return (currentGamepad.square && !previousGamepad.square);
     }
 
+    public boolean circle(){ return (currentGamepad.circle && !previousGamepad.circle); }
+
+    public boolean cross() { return (currentGamepad.cross && !previousGamepad.cross); }
+
     public boolean dpad_up() {
         return currentGamepad.dpad_up;
     }

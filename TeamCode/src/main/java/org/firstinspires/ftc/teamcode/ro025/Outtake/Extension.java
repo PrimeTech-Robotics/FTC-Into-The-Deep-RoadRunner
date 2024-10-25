@@ -17,8 +17,8 @@ public class Extension {
     public static double f = 0;
     public static double target = 0;
     // TODO: Adjust with actual values
-    public final double MAX_TICKS = 0;
-    public final double MIN_TICKS = 0;
+    public static final double MAX_TICKS = 0;
+    public static final double MIN_TICKS = 0;
     public final double increment = 0;
 
     enum LiftState {
@@ -53,7 +53,11 @@ public class Extension {
     }
 
     //PID stuff
-    public void loop() {
+    public void loop(){
+        run_to_target(fsm());
+    }
+
+    public double fsm() {
         //FSM PID type shit
         double last_target = target;
 
@@ -82,20 +86,21 @@ public class Extension {
                 }
                 break;
         }
+        return target;
+    }
+     public void run_to_target(double target){
+         controller.setPID(p, i, d);
+         int lift_pos = extindere_left.getCurrentPosition();
+         double pid = controller.calculate(lift_pos, target);
+         double power = pid;
 
-        controller.setPID(p, i, d);
-        int lift_pos = extindere_left.getCurrentPosition();
-        double pid = controller.calculate(lift_pos, target);
-        double power = pid;
+         // TODO: Discuss FeedForward
 
-        // TODO: Discuss FeedForward
-
-        extindere_right.setPower(power);
-        extindere_left.setPower(power);
+         extindere_right.setPower(power);
+         extindere_left.setPower(power);
 
         /*telemetry.addData("pos ", lift_pos);
         telemetry.addData("target ", target);
         telemetry.update();*/
-    }
-
+     }
 }

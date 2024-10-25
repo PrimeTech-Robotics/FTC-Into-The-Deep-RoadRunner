@@ -15,8 +15,8 @@ public class Pivot {
     public static double f = 0;
     public static double target = 0;
     // TODO: Adjust with actual values
-    public final double MAX_TICKS = 0;
-    public final double MIN_TICKS = 0;
+    public static final double MAX_TICKS = 0;
+    public static final double MIN_TICKS = 0;
     public final double increment = 0;
 
     enum LiftState {
@@ -46,7 +46,11 @@ public class Pivot {
     }
 
     //PID stuff
-    public void loop() {
+    public void loop(){
+        run_to_target(fsm());
+    }
+
+    public double fsm() {
         switch (liftState) {
             case MIN:
                 if (GamepadClass.getInstance().dpad_up()) {
@@ -77,7 +81,10 @@ public class Pivot {
                 }
                 break;
         }
+        return target;
+    }
 
+    public void run_to_target(double target){
         controller.setPID(p, i, d);
         int pivot_pos = motorPivot.getCurrentPosition();
         double pid = controller.calculate(pivot_pos, target);

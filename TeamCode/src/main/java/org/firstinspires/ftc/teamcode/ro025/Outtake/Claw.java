@@ -20,7 +20,7 @@ public class Claw {
         OPEN, CLOSED
     }
 
-    OpenState openState = OpenState.OPEN;
+    OpenState openState = OpenState.CLOSED;
 
     enum FrontBackState {
         FRONT, BACK
@@ -36,15 +36,16 @@ public class Claw {
 
     // Servo positions
     // TODO: Adjust with actual positions
-    final double OPEN_POS = 1.0;
-    final double CLOSED_POS = 0.0;
+    public static final double OPEN_POS = 1.0;
+    public static final double CLOSED_POS = 0.0;
 
-    final double FRONT_POS = 1.0;
-    final double BACK_POS = 0.0;
+    public static final double FRONT_POS = 1.0;
+    public static final double BACK_POS = 0.0;
 
-    final double ROTATION_INCREMENT = 0.0;
-    final double RIGHT_FINAL_STATE = 0.0;
-    final double LEFT_FINAL_STATE = 0.0;
+    public static final double ROTATION_INCREMENT = 0.0;
+    public static final double RIGHT_FINAL_STATE = 0.0;
+    public static final double LEFT_FINAL_STATE = 0.0;
+    public static final double MID_POS = 0.0;
 
     public static synchronized Claw getInstance() {
         if (instance == null) {
@@ -55,9 +56,16 @@ public class Claw {
 
     public void init() {
         openingServo = hardwareMap.get(Servo.class, "openingServo");
+        openingServo.setPosition(CLOSED_POS);
+
         rotationServo = hardwareMap.get(Servo.class, "rotationServo");
+        rotationServo.setPosition(MID_POS);
+
         frontBackServo_left = hardwareMap.get(Servo.class, "frontBackServo_left");
+        frontBackServo_left.setPosition(BACK_POS);
+
         frontBackServo_right = hardwareMap.get(Servo.class, "frontBackServo_right");
+        frontBackServo_right.setPosition(FRONT_POS);
 
         actionTimer.reset();
     }
@@ -66,14 +74,14 @@ public class Claw {
         // Opening/closing FSM
         switch (openState) {
             case OPEN:
-                if (GamepadClass.getInstance().triangle()) {
+                if (GamepadClass.getInstance().cross()) {
                     // Transition to CLOSED state
                     openingServo.setPosition(CLOSED_POS);
                     openState = OpenState.CLOSED;
                 }
                 break;
             case CLOSED:
-                if (GamepadClass.getInstance().triangle()) {
+                if (GamepadClass.getInstance().cross()) {
                     // Transition to OPEN state
                     openingServo.setPosition(OPEN_POS);
                     openState = OpenState.OPEN;
