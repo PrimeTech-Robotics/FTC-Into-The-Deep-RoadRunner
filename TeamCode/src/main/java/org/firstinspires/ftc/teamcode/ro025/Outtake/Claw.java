@@ -105,21 +105,21 @@ public class Claw {
         // Left/right movement FSM
         switch (leftRightState) {
             case RIGHT:
-                if (GamepadClass.getInstance().dpad_left()){
+                if (GamepadClass.getInstance().dpad_left()) {
                     // Transition to INRANGE state
                     rotationServo.setPosition(rotationServo.getPosition() - ROTATION_INCREMENT);
                     leftRightState = LeftRightState.INRANGE;
                 }
                 break;
             case LEFT:
-                if (GamepadClass.getInstance().dpad_right()){
+                if (GamepadClass.getInstance().dpad_right()) {
                     // Transition to INRANGE state
                     rotationServo.setPosition(rotationServo.getPosition() + ROTATION_INCREMENT);
                     leftRightState = LeftRightState.INRANGE;
                 }
                 break;
             case INRANGE:
-                if (GamepadClass.getInstance().dpad_left()){
+                if (GamepadClass.getInstance().dpad_left()) {
                     rotationServo.setPosition(rotationServo.getPosition() - ROTATION_INCREMENT);
                     if (rotationServo.getPosition() < LEFT_FINAL_STATE) {
                         // Transition to LEFT state
@@ -127,9 +127,9 @@ public class Claw {
                         leftRightState = LeftRightState.LEFT;
                     }
                 }
-                if (GamepadClass.getInstance().dpad_right()){
+                if (GamepadClass.getInstance().dpad_right()) {
                     rotationServo.setPosition(rotationServo.getPosition() + ROTATION_INCREMENT);
-                    if (rotationServo.getPosition() > RIGHT_FINAL_STATE){
+                    if (rotationServo.getPosition() > RIGHT_FINAL_STATE) {
                         // Transition to RIGHT state
                         rotationServo.setPosition(RIGHT_FINAL_STATE);
                         leftRightState = LeftRightState.RIGHT;

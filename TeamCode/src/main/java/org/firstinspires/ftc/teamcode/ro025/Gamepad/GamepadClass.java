@@ -28,19 +28,35 @@ public class GamepadClass {
         currentGamepad.copy(gamepad1);
     }
 
-    public boolean triangle() { return (currentGamepad.triangle && !previousGamepad.triangle); }
+    public boolean triangle() {
+        return (currentGamepad.triangle && !previousGamepad.triangle);
+    }
 
-    public boolean square() { return (currentGamepad.square && !previousGamepad.square); }
+    public boolean square() {
+        return (currentGamepad.square && !previousGamepad.square);
+    }
 
-    public boolean dpad_up() { return currentGamepad.dpad_up; }
+    public boolean dpad_up() {
+        return currentGamepad.dpad_up;
+    }
 
-    public boolean dpad_down() { return currentGamepad.dpad_down; }
+    public boolean dpad_down() {
+        return currentGamepad.dpad_down;
+    }
 
-    public double right_trigger() { return currentGamepad.right_trigger; }
+    public double right_trigger() {
+        return currentGamepad.right_trigger;
+    }
 
-    public double left_trigger() { return currentGamepad.left_trigger; }
+    public double left_trigger() {
+        return currentGamepad.left_trigger;
+    }
 
-    public boolean dpad_left() { return currentGamepad.dpad_left; }
+    public boolean dpad_left() {
+        return currentGamepad.dpad_left;
+    }
 
-    public boolean dpad_right() { return currentGamepad.dpad_right; }
+    public boolean dpad_right() {
+        return currentGamepad.dpad_right;
+    }
 }

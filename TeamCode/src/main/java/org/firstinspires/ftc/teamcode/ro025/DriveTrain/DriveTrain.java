@@ -23,11 +23,13 @@ public class DriveTrain {
 
     public void init() {
         leftBack = hardwareMap.get(DcMotor.class, "leftBack");
-        leftBack.setZeroPowerBehavior(BRAKE); leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
+        leftBack.setZeroPowerBehavior(BRAKE);
+        leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
 
 
         leftFront = hardwareMap.get(DcMotor.class, "leftFront");
-        leftFront.setZeroPowerBehavior(BRAKE); leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
+        leftFront.setZeroPowerBehavior(BRAKE);
+        leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
 
 
         rightBack = hardwareMap.get(DcMotor.class, "rightBack");
