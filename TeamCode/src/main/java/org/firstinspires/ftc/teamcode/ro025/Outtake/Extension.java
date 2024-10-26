@@ -43,10 +43,12 @@ public class Extension {
         controller = new PIDController(p, i, d);
 
         extindere_left = hardwareMap.get(DcMotorEx.class, "extindere_left");
+        extindere_left.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         extindere_left.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        extindere_left.setDirection(DcMotorSimple.Direction.REVERSE);
 
         extindere_right = hardwareMap.get(DcMotorEx.class, "extindere_right");
-        extindere_right.setDirection(DcMotorSimple.Direction.REVERSE);
+        extindere_right.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         extindere_right.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         // telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
@@ -54,7 +56,8 @@ public class Extension {
 
     //PID stuff
     public void loop(){
-        run_to_target(fsm());
+        double local_target = fsm();
+        run_to_target(local_target);
     }
 
     public double fsm() {

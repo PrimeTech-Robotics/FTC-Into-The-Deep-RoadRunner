@@ -41,13 +41,15 @@ public class Pivot {
 
         motorPivot = hardwareMap.get(DcMotorEx.class, "motorPivot");
         motorPivot.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorPivot.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         //telemetry =new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
     }
 
     //PID stuff
     public void loop(){
-        run_to_target(fsm());
+        double local_target = fsm();
+        run_to_target(local_target);
     }
 
     public double fsm() {
