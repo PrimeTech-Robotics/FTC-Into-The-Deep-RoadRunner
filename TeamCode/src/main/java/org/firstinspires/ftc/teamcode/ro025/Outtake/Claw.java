@@ -90,6 +90,7 @@ public class Claw {
         }
 
         // Front/back movement FSM
+        ///trebuie schimbat pe dpad_up&down
         switch (frontBackState) {
             case FRONT:
                 if (GamepadClass.getInstance().triangle()) {
