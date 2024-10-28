@@ -55,22 +55,22 @@ public class Pivot {
     public double fsm() {
         switch (liftState) {
             case MIN:
-                if (GamepadClass.getInstance().dpad_up()) {
+                if (GamepadClass.getInstance().right_bumper()) {
                     target = target + increment;
                     liftState = LiftState.INRANGE;
                 }
                 break;
             case MAX:
-                if (GamepadClass.getInstance().dpad_down()) {
+                if (GamepadClass.getInstance().left_bumper()) {
                     target = target - increment;
                     liftState = LiftState.INRANGE;
                 }
                 break;
             case INRANGE:
-                if (GamepadClass.getInstance().dpad_up()) {
+                if (GamepadClass.getInstance().right_bumper()) {
                     target = target + increment;
                 }
-                if (GamepadClass.getInstance().dpad_down()) {
+                if (GamepadClass.getInstance().left_bumper()) {
                     target = target - increment;
                 }
                 if (target > MAX_TICKS) {

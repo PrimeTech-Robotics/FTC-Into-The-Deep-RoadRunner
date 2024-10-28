@@ -56,6 +56,10 @@ public class GamepadClass {
         return currentGamepad.left_trigger;
     }
 
+    public boolean left_bumper() { return currentGamepad.left_bumper;}
+
+    public boolean right_bumper() { return currentGamepad.right_bumper;}
+
     public boolean dpad_left() {
         return currentGamepad.dpad_left;
     }

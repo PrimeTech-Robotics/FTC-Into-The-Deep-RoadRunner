@@ -23,7 +23,7 @@ public class Claw {
     OpenState openState = OpenState.CLOSED;
 
     enum FrontBackState {
-        FRONT, BACK
+        FRONT, BACK, INRANGE
     }
 
     FrontBackState frontBackState = FrontBackState.FRONT;
@@ -41,6 +41,7 @@ public class Claw {
 
     public static final double FRONT_POS = 1.0;
     public static final double BACK_POS = 0.0;
+    public static final double ROTATION_INCREMENT_FRONT_BACK = 0.0;
 
     public static final double ROTATION_INCREMENT = 0.0;
     public static final double RIGHT_FINAL_STATE = 0.0;
@@ -93,19 +94,41 @@ public class Claw {
         ///trebuie schimbat pe dpad_up&down
         switch (frontBackState) {
             case FRONT:
-                if (GamepadClass.getInstance().triangle()) {
-                    // Transition to BACK state
-                    frontBackServo_right.setPosition(BACK_POS);
-                    frontBackServo_left.setPosition(FRONT_POS);
-                    frontBackState = FrontBackState.BACK;
+                if (GamepadClass.getInstance().dpad_up()) {
+                    // Transition to INRANGE state
+                    frontBackServo_right.setPosition(frontBackServo_right.getPosition() - ROTATION_INCREMENT_FRONT_BACK);
+                    frontBackServo_left.setPosition(frontBackServo_left.getPosition() + ROTATION_INCREMENT_FRONT_BACK);
+                    frontBackState = FrontBackState.INRANGE;
                 }
                 break;
             case BACK:
-                if (GamepadClass.getInstance().triangle()) {
+                if (GamepadClass.getInstance().dpad_down()) {
                     // Transition to FRONT state
-                    frontBackServo_right.setPosition(FRONT_POS);
-                    frontBackServo_left.setPosition(BACK_POS);
-                    frontBackState = FrontBackState.FRONT;
+                    frontBackServo_right.setPosition(frontBackServo_right.getPosition() + ROTATION_INCREMENT_FRONT_BACK);
+                    frontBackServo_left.setPosition(frontBackServo_left.getPosition() - ROTATION_INCREMENT_FRONT_BACK);
+                    frontBackState = FrontBackState.INRANGE;
+                }
+                break;
+            case INRANGE:
+                if (GamepadClass.getInstance().dpad_up()) {
+                    frontBackServo_right.setPosition(frontBackServo_right.getPosition() - ROTATION_INCREMENT_FRONT_BACK);
+                    frontBackServo_left.setPosition(frontBackServo_left.getPosition() + ROTATION_INCREMENT_FRONT_BACK);
+                    if(frontBackServo_right.getPosition() < BACK_POS) {
+                        //transition to BACK_POS
+                        frontBackServo_right.setPosition(BACK_POS);
+                        frontBackServo_left.setPosition(FRONT_POS);
+                        frontBackState = FrontBackState.BACK;
+                    }
+                }
+                if (GamepadClass.getInstance().dpad_down()) {
+                    frontBackServo_right.setPosition(frontBackServo_right.getPosition() + ROTATION_INCREMENT_FRONT_BACK);
+                    frontBackServo_left.setPosition(frontBackServo_left.getPosition() - ROTATION_INCREMENT_FRONT_BACK);
+                    if(frontBackServo_right.getPosition() > FRONT_POS) {
+                        //transition to FRONT_POS
+                        frontBackServo_right.setPosition(FRONT_POS);
+                        frontBackServo_left.setPosition(BACK_POS);
+                        frontBackState = FrontBackState.FRONT;
+                    }
                 }
                 break;
         }
