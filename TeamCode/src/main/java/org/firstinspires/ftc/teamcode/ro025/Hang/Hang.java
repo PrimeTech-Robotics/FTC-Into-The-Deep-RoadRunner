@@ -11,8 +11,8 @@ import org.firstinspires.ftc.teamcode.ro025.Outtake.Claw;
 public class Hang {
     private static Hang instance = null;
 
-    Servo leftServo = null;
-    Servo rightServo = null;
+    Servo leftHangServo = null;
+    Servo rightHangServo = null;
 
     public static final double OPEN_POS = 1.0;
     public static final double CLOSED_POS = 0.0;
@@ -25,17 +25,17 @@ public class Hang {
     }
 
     public void init() {
-        leftServo = hardwareMap.get(Servo.class, "leftServo");
-        leftServo.setPosition(-CLOSED_POS);
+        leftHangServo = hardwareMap.get(Servo.class, "leftHangServo");
+        leftHangServo.setPosition(-CLOSED_POS);
 
-        rightServo = hardwareMap.get(Servo.class, "rightServo");
-        rightServo.setPosition(CLOSED_POS);
+        rightHangServo = hardwareMap.get(Servo.class, "rightHangServo");
+        rightHangServo.setPosition(CLOSED_POS);
     }
 
     public void loop() {
         if(GamepadClass.getInstance().triangle()){
-            leftServo.setPosition(OPEN_POS);
-            rightServo.setPosition(OPEN_POS);
+            leftHangServo.setPosition(OPEN_POS);
+            rightHangServo.setPosition(OPEN_POS);
         }
     }
 }
