@@ -14,8 +14,6 @@ public class Claw {
     Servo frontBackServo_left = null;
     Servo frontBackServo_right = null;
 
-    private final ElapsedTime actionTimer = new ElapsedTime();
-
     enum OpenState {
         OPEN, CLOSED
     }
@@ -67,8 +65,6 @@ public class Claw {
 
         frontBackServo_right = hardwareMap.get(Servo.class, "frontBackServo_right");
         frontBackServo_right.setPosition(FRONT_POS);
-
-        actionTimer.reset();
     }
 
     public void loop() {
