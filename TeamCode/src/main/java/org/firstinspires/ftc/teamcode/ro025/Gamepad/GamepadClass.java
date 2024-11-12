@@ -30,7 +30,7 @@ public class GamepadClass {
 
     public boolean triangle() {return (currentGamepad.triangle && !previousGamepad.triangle);} //After square is pressed it opens the Hang
 
-    public boolean square() {return (currentGamepad.square && !previousGamepad.square);} //Acts as a safety for the Hang
+    public boolean square() {return (currentGamepad.square && !previousGamepad.square);} //Acts as a safety button for the Hang
 
     public boolean circle(){ return (currentGamepad.circle && !previousGamepad.circle); } //Returns all the systems to their initial position
 
