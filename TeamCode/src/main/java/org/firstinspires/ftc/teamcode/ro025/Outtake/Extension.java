@@ -43,12 +43,12 @@ public class Extension {
         controller = new PIDController(p, i, d);
 
         extindere_left = hardwareMap.get(DcMotorEx.class, "extindere_left");
-        extindere_left.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        extindere_left.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         extindere_left.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         extindere_left.setDirection(DcMotorSimple.Direction.REVERSE);
 
         extindere_right = hardwareMap.get(DcMotorEx.class, "extindere_right");
-        extindere_right.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        extindere_right.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         extindere_right.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         // telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
@@ -95,7 +95,7 @@ public class Extension {
          controller.setPID(p, i, d);
          int lift_pos = extindere_left.getCurrentPosition();
          double pid = controller.calculate(lift_pos, target);
-         double power = pid;
+         double power = pid + f;
 
          // TODO: Discuss FeedForward
 

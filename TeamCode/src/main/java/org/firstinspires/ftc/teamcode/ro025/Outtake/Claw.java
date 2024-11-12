@@ -25,7 +25,7 @@ public class Claw {
         FRONT, BACK, INRANGE
     }
 
-    FrontBackState frontBackState = FrontBackState.FRONT;
+    FrontBackState frontBackState = FrontBackState.BACK;
 
     enum LeftRightState {
         RIGHT, LEFT, INRANGE
@@ -62,10 +62,12 @@ public class Claw {
         rotationServo.setPosition(MID_POS);
 
         frontBackServo_left = hardwareMap.get(Servo.class, "frontBackServo_left");
+        frontBackServo_left.setDirection(Servo.Direction.REVERSE);
         frontBackServo_left.setPosition(BACK_POS);
 
+
         frontBackServo_right = hardwareMap.get(Servo.class, "frontBackServo_right");
-        frontBackServo_right.setPosition(FRONT_POS);
+        frontBackServo_right.setPosition(BACK_POS);
     }
 
     public void loop() {
@@ -112,7 +114,7 @@ public class Claw {
                     if(frontBackServo_right.getPosition() < BACK_POS) {
                         //transition to BACK_POS
                         frontBackServo_right.setPosition(BACK_POS);
-                        frontBackServo_left.setPosition(FRONT_POS);
+                        frontBackServo_left.setPosition(BACK_POS);
                         frontBackState = FrontBackState.BACK;
                     }
                 }
@@ -122,7 +124,7 @@ public class Claw {
                     if(frontBackServo_right.getPosition() > FRONT_POS) {
                         //transition to FRONT_POS
                         frontBackServo_right.setPosition(FRONT_POS);
-                        frontBackServo_left.setPosition(BACK_POS);
+                        frontBackServo_left.setPosition(FRONT_POS);
                         frontBackState = FrontBackState.FRONT;
                     }
                 }

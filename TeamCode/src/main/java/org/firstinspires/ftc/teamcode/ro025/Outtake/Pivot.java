@@ -41,7 +41,7 @@ public class Pivot {
 
         motorPivot = hardwareMap.get(DcMotorEx.class, "motorPivot");
         motorPivot.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorPivot.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorPivot.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
         //telemetry =new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
     }
@@ -90,7 +90,7 @@ public class Pivot {
         controller.setPID(p, i, d);
         int pivot_pos = motorPivot.getCurrentPosition();
         double pid = controller.calculate(pivot_pos, target);
-        double power = pid;
+        double power = pid + f;
 
         // TODO: Discuss FeedForward
 

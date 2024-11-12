@@ -42,13 +42,17 @@ public class DriveTrain {
 
     public void loop() {
         // Drivetrain gamepad control
-        double y = -gamepad1.left_stick_y; // inverted Y stick
-        double x = gamepad1.left_stick_x;
-        double rx = gamepad1.right_stick_x;
+        double y = smoothControl(-gamepad1.left_stick_y); // inverted Y stick
+        double x = smoothControl(gamepad1.left_stick_x);
+        double rx = smoothControl(gamepad1.right_stick_x);
 
         leftFront.setPower(y + x + rx);
         leftBack.setPower(y - x + rx);
         rightFront.setPower(y - x - rx);
         rightBack.setPower(y + x - rx);
+    }
+
+    private double smoothControl(double val) {
+        return 0.5 * Math.tan(1.12 * val);
     }
 }
