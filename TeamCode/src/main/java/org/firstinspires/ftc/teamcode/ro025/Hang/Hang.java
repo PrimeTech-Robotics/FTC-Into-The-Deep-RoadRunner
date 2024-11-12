@@ -17,6 +17,12 @@ public class Hang {
     public static final double OPEN_POS = 1.0;
     public static final double CLOSED_POS = 0.0;
 
+    enum ServoState{
+        OPEN, CLOSED
+    }
+
+    ServoState servostate = ServoState.CLOSED;
+
     public static synchronized Hang getInstance() {
         if (instance == null) {
             instance = new Hang();
@@ -33,9 +39,25 @@ public class Hang {
     }
 
     public void loop() {
-        if(GamepadClass.getInstance().triangle()){
-            leftHangServo.setPosition(OPEN_POS);
-            rightHangServo.setPosition(OPEN_POS);
+        switch(servostate){
+            case CLOSED:
+                if(GamepadClass.getInstance().triangle()){
+                    leftHangServo.setPosition(OPEN_POS);
+                    rightHangServo.setPosition(OPEN_POS);
+
+                    servostate = ServoState.OPEN;
+                }
+                break;
+            case OPEN:
+                if(GamepadClass.getInstance().triangle()){
+                    leftHangServo.setPosition(CLOSED_POS);
+                    rightHangServo.setPosition(CLOSED_POS);
+
+                    servostate = ServoState.CLOSED;
+
+                    Safety.getInstance().square = Safety.Square.UNPRESSED;
+                }
+                break;
         }
     }
 }

@@ -8,7 +8,6 @@ public class Safety {
         PRESSED , UNPRESSED
     }
     Square square = Square.UNPRESSED;
-
     private static Safety instance = null;
 
     public static synchronized Safety getInstance() {
