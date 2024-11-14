@@ -17,8 +17,8 @@ public class Extension {
     public static double f = 0;
     public static double target = 0;
     // TODO: Adjust with actual values
-    public static final double MAX_TICKS = 0;
-    public static final double MIN_TICKS = 0;
+    public static final double MAX_TICKS = 0.0;
+    public static final double MIN_TICKS = 0.0;
     public final double increment = 0;
 
     enum LiftState {

@@ -21,31 +21,16 @@ public class Claw {
 
     OpenState openState = OpenState.CLOSED;
 
-    enum FrontBackState {
-        FRONT, BACK, INRANGE
-    }
-
-    FrontBackState frontBackState = FrontBackState.BACK;
-
-    enum LeftRightState {
-        RIGHT, LEFT, INRANGE
-    }
-
-    LeftRightState leftRightState = LeftRightState.INRANGE;
-
     // Servo positions
     // TODO: Adjust with actual positions
     public static final double OPEN_POS = 1.0;
     public static final double CLOSED_POS = 0.0;
 
-    public static final double FRONT_POS = 1.0;
-    public static final double BACK_POS = 0.0;
-    public static final double ROTATION_INCREMENT_FRONT_BACK = 0.0;
 
-    public static final double ROTATION_INCREMENT = 0.0;
-    public static final double RIGHT_FINAL_STATE = 0.0;
-    public static final double LEFT_FINAL_STATE = 0.0;
-    public static final double MID_POS = 0.0;
+    public static final double FRONT_BACK_INIT = 0.0;
+    public static final double OMEGA = 0.0;
+
+    public static final double ROTATION_INIT = 0.0;
 
     public static synchronized Claw getInstance() {
         if (instance == null) {
@@ -59,18 +44,45 @@ public class Claw {
         openingServo.setPosition(CLOSED_POS);
 
         rotationServo = hardwareMap.get(Servo.class, "rotationServo");
-        rotationServo.setPosition(MID_POS);
+        rotationServo.setPosition(ROTATION_INIT);
 
         frontBackServo_left = hardwareMap.get(Servo.class, "frontBackServo_left");
         frontBackServo_left.setDirection(Servo.Direction.REVERSE);
-        frontBackServo_left.setPosition(BACK_POS);
+        frontBackServo_left.setPosition(FRONT_BACK_INIT);
 
 
         frontBackServo_right = hardwareMap.get(Servo.class, "frontBackServo_right");
-        frontBackServo_right.setPosition(BACK_POS);
+        frontBackServo_right.setPosition(FRONT_BACK_INIT);
     }
 
-    public void loop() {
+    public void paralel_to_the_ground_fornt(){
+        double alpha = Pivot.getInstance().motorPivot.getCurrentPosition()/2.088/180 - (0.5 - OMEGA/180);
+
+        frontBackServo_left.setPosition(alpha);
+        frontBackServo_right.setPosition(alpha);
+    }
+
+    public void perpendicular_on_the_ground(){
+        double alpha = Pivot.getInstance().motorPivot.getCurrentPosition()/2.088/180 + OMEGA/180;
+
+        frontBackServo_left.setPosition(alpha);
+        frontBackServo_right.setPosition(alpha);
+    }
+
+    public void paralel_to_the_ground_back() {
+        double alpha = -(1 -(Pivot.getInstance().motorPivot.getCurrentPosition()/2.088/180 - (0.5 - OMEGA/180)));
+        if(alpha < -0.5){
+            alpha = -0.5;
+        }
+        frontBackServo_left.setPosition(alpha);
+        frontBackServo_right.setPosition(alpha);
+    }
+
+    public void move_to_angle(double angle){
+        frontBackServo_left.setPosition(angle);
+        frontBackServo_right.setPosition(angle);
+    }
+    public void open_close() {
         // Opening/closing FSM
         switch (openState) {
             case OPEN:
@@ -88,83 +100,9 @@ public class Claw {
                 }
                 break;
         }
-
-        // Front/back movement FSM
-        switch (frontBackState) {
-            case FRONT:
-                if (GamepadClass.getInstance().dpad_up()) {
-                    // Transition to INRANGE state
-                    frontBackServo_right.setPosition(frontBackServo_right.getPosition() - ROTATION_INCREMENT_FRONT_BACK);
-                    frontBackServo_left.setPosition(frontBackServo_left.getPosition() + ROTATION_INCREMENT_FRONT_BACK);
-                    frontBackState = FrontBackState.INRANGE;
-                }
-                break;
-            case BACK:
-                if (GamepadClass.getInstance().dpad_down()) {
-                    // Transition to FRONT state
-                    frontBackServo_right.setPosition(frontBackServo_right.getPosition() + ROTATION_INCREMENT_FRONT_BACK);
-                    frontBackServo_left.setPosition(frontBackServo_left.getPosition() - ROTATION_INCREMENT_FRONT_BACK);
-                    frontBackState = FrontBackState.INRANGE;
-                }
-                break;
-            case INRANGE:
-                if (GamepadClass.getInstance().dpad_up()) {
-                    frontBackServo_right.setPosition(frontBackServo_right.getPosition() - ROTATION_INCREMENT_FRONT_BACK);
-                    frontBackServo_left.setPosition(frontBackServo_left.getPosition() + ROTATION_INCREMENT_FRONT_BACK);
-                    if(frontBackServo_right.getPosition() < BACK_POS) {
-                        //transition to BACK_POS
-                        frontBackServo_right.setPosition(BACK_POS);
-                        frontBackServo_left.setPosition(BACK_POS);
-                        frontBackState = FrontBackState.BACK;
-                    }
-                }
-                if (GamepadClass.getInstance().dpad_down()) {
-                    frontBackServo_right.setPosition(frontBackServo_right.getPosition() + ROTATION_INCREMENT_FRONT_BACK);
-                    frontBackServo_left.setPosition(frontBackServo_left.getPosition() - ROTATION_INCREMENT_FRONT_BACK);
-                    if(frontBackServo_right.getPosition() > FRONT_POS) {
-                        //transition to FRONT_POS
-                        frontBackServo_right.setPosition(FRONT_POS);
-                        frontBackServo_left.setPosition(FRONT_POS);
-                        frontBackState = FrontBackState.FRONT;
-                    }
-                }
-                break;
-        }
-
-        // Left/right movement FSM
-        switch (leftRightState) {
-            case RIGHT:
-                if (GamepadClass.getInstance().dpad_left()) {
-                    // Transition to INRANGE state
-                    rotationServo.setPosition(rotationServo.getPosition() - ROTATION_INCREMENT);
-                    leftRightState = LeftRightState.INRANGE;
-                }
-                break;
-            case LEFT:
-                if (GamepadClass.getInstance().dpad_right()) {
-                    // Transition to INRANGE state
-                    rotationServo.setPosition(rotationServo.getPosition() + ROTATION_INCREMENT);
-                    leftRightState = LeftRightState.INRANGE;
-                }
-                break;
-            case INRANGE:
-                if (GamepadClass.getInstance().dpad_left()) {
-                    rotationServo.setPosition(rotationServo.getPosition() - ROTATION_INCREMENT);
-                    if (rotationServo.getPosition() < LEFT_FINAL_STATE) {
-                        // Transition to LEFT state
-                        rotationServo.setPosition(LEFT_FINAL_STATE);
-                        leftRightState = LeftRightState.LEFT;
-                    }
-                }
-                if (GamepadClass.getInstance().dpad_right()) {
-                    rotationServo.setPosition(rotationServo.getPosition() + ROTATION_INCREMENT);
-                    if (rotationServo.getPosition() > RIGHT_FINAL_STATE) {
-                        // Transition to RIGHT state
-                        rotationServo.setPosition(RIGHT_FINAL_STATE);
-                        leftRightState = LeftRightState.RIGHT;
-                    }
-                }
-                break;
-        }
+    }
+    public void rotate(double angle){
+        rotationServo.setPosition(angle);
     }
 }
+

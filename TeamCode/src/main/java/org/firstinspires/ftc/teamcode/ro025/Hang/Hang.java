@@ -17,11 +17,6 @@ public class Hang {
     public static final double OPEN_POS = 1.0;
     public static final double CLOSED_POS = 0.0;
 
-    enum Square{
-        PRESSED , UNPRESSED
-    }
-    Square square = Square.UNPRESSED;
-
     public static synchronized Hang getInstance() {
         if (instance == null) {
             instance = new Hang();
@@ -38,19 +33,10 @@ public class Hang {
     }
 
     public void loop() {
-        switch(square){
-            case UNPRESSED:
-                if(GamepadClass.getInstance().square())
-                    square = Square.PRESSED;
-                break;
-            case PRESSED:
-                if(GamepadClass.getInstance().square())
-                    square = Square.UNPRESSED;
-                if(GamepadClass.getInstance().triangle()) {
-                    leftHangServo.setPosition(-OPEN_POS);
-                    rightHangServo.setPosition(OPEN_POS);
-                }
-                break;
+        if(GamepadClass.getInstance().triangle()) {
+            leftHangServo.setPosition(-OPEN_POS);
+            rightHangServo.setPosition(OPEN_POS);
         }
     }
 }
+

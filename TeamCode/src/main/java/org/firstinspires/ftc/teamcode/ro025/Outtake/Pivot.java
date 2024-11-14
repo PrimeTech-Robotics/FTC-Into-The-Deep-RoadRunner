@@ -17,6 +17,7 @@ public class Pivot {
     // TODO: Adjust with actual values
     public static final double MAX_TICKS = 0;
     public static final double MIN_TICKS = 0;
+    public static final double TICKS_FOR_PARALEL = 0;
     public final double increment = 0;
 
     enum LiftState {
@@ -25,7 +26,7 @@ public class Pivot {
 
     LiftState liftState = LiftState.MIN;
 
-    DcMotorEx motorPivot = null;
+    public DcMotorEx motorPivot = null;
 
     private static Pivot instance = null;
 

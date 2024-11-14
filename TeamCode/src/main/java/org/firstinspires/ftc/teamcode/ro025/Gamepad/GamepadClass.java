@@ -36,13 +36,9 @@ public class GamepadClass {
 
     public boolean cross() { return (currentGamepad.cross && !previousGamepad.cross); } //Opens and closes the Claw
 
-    public boolean dpad_up() {
-        return currentGamepad.dpad_up;
-    } //Moves the Claw to the back
+    public boolean dpad_up() {return currentGamepad.dpad_up;} //
 
-    public boolean dpad_down() {
-        return currentGamepad.dpad_down;
-    } //Moves the Claw to the front
+    public boolean dpad_down() {return currentGamepad.dpad_down && !previousGamepad.dpad_down;} //INTAKE_SAMPLE mode
 
     public double right_trigger() {
         return currentGamepad.right_trigger;
@@ -56,9 +52,7 @@ public class GamepadClass {
 
     public boolean right_bumper() { return currentGamepad.right_bumper;} //Rotates the Sliders up
 
-    public boolean dpad_left() {return currentGamepad.dpad_left;} //Rotates the Claw counter clockwise
+    public boolean dpad_left() {return currentGamepad.dpad_left && !previousGamepad.dpad_left;} //OUTTAKE_SAMPLE mode
 
-    public boolean dpad_right() {
-        return currentGamepad.dpad_right;
-    } //Rotates the Claw clockwise
+    public boolean dpad_right() {return currentGamepad.dpad_right && !previousGamepad.dpad_right;} //INTAKE_OUTTAKE_SPECIMEN mode
 }
