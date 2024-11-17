@@ -44,8 +44,8 @@ public class FSM_modes {
                 Claw.getInstance().rotate(0.0);
                 Claw.getInstance().move_to_angle(0.5);
                 do {
-                    Pivot.getInstance().run_to_target(Pivot.TICKS_FOR_PARALEL);
-                } while (Pivot.getInstance().motorPivot.getCurrentPosition() != Pivot.TICKS_FOR_PARALEL);
+                    Pivot.getInstance().run_to_target(Pivot.TICKS_FOR_PARALLEL);
+                } while (Pivot.getInstance().motorPivot.getCurrentPosition() != Pivot.TICKS_FOR_PARALLEL);
                 //TODO: limelight implementaion & extension
                 break;
             case INTAKE_OUTTAKE_SPECIMEN:
@@ -55,7 +55,7 @@ public class FSM_modes {
                 Extension.getInstance().loop();
                 Pivot.getInstance().loop();
                 Claw.getInstance().rotate(0.0);
-                Claw.getInstance().paralel_to_the_ground_fornt();
+                Claw.getInstance().parallel_to_the_ground_front();
                 Claw.getInstance().open_close();
                 break;
             case OUTTAKE_SAMPLE:
@@ -65,7 +65,7 @@ public class FSM_modes {
                 Extension.getInstance().loop();
                 Pivot.getInstance().loop();
                 Claw.getInstance().rotate(0.5);
-                Claw.getInstance().paralel_to_the_ground_back();
+                Claw.getInstance().parallel_to_the_ground_back();
                 Claw.getInstance().open_close();
                 break;
         }

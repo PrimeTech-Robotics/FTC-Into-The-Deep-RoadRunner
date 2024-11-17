@@ -55,7 +55,7 @@ public class Claw {
         frontBackServo_right.setPosition(FRONT_BACK_INIT);
     }
 
-    public void paralel_to_the_ground_fornt(){
+    public void parallel_to_the_ground_front(){
         double alpha = Pivot.getInstance().motorPivot.getCurrentPosition()/2.088/180 - (0.5 - OMEGA/180);
 
         frontBackServo_left.setPosition(alpha);
@@ -69,7 +69,7 @@ public class Claw {
         frontBackServo_right.setPosition(alpha);
     }
 
-    public void paralel_to_the_ground_back() {
+    public void parallel_to_the_ground_back() {
         double alpha = -(1 -(Pivot.getInstance().motorPivot.getCurrentPosition()/2.088/180 - (0.5 - OMEGA/180)));
         if(alpha < -0.5){
             alpha = -0.5;
