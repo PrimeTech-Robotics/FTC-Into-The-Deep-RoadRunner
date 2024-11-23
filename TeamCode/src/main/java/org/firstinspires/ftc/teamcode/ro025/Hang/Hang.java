@@ -14,8 +14,8 @@ public class Hang {
     Servo leftHangServo = null;
     Servo rightHangServo = null;
 
-    public static final double OPEN_POS = 1.0;
-    public static final double CLOSED_POS = 0.0;
+    public static final double OPEN_POS = 1.0;  ///schimbam cu valori reale
+    public static final double CLOSED_POS = 0.0;  ///schimbam cu valori reale
 
     public static synchronized Hang getInstance() {
         if (instance == null) {

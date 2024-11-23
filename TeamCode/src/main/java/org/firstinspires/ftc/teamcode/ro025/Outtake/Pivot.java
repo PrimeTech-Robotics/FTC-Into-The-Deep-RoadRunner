@@ -11,14 +11,14 @@ import org.firstinspires.ftc.teamcode.ro025.Gamepad.GamepadClass;
 public class Pivot {
     private PIDController controller;
 
-    public static double p = 0, i = 0, d = 0;
-    public static double f = 0;
+    public static double p = 0, i = 0, d = 0; ///schimbam cu valori reale
+    public static double f = 0; ///schimbam cu valori reale
     public static double target = 0;
     // TODO: Adjust with actual values
-    public static final double MAX_TICKS = 0;
+    public static final double MAX_TICKS = 0;  ///schimbam cu valori reale
     public static final double MIN_TICKS = 0;
-    public static final double TICKS_FOR_PARALLEL = 0;
-    public final double increment = 0;
+    public static final double TICKS_FOR_PARALLEL = 0;  ///schimbam cu valori reale
+    public final double increment = 0;  ///schimbam cu valori reale
 
     enum LiftState {
         MAX, INRANGE, MIN

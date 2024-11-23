@@ -27,19 +27,15 @@ public class FSM_modes {
             case GENERAL:
                 if(GamepadClass.getInstance().dpad_right()){
                     modes = Modes.INTAKE_OUTTAKE_SPECIMEN;
-                    Claw.getInstance().rotate(0.0);
+                    All_modes.intake_outtake_specimen_init();
                 }
                 if(GamepadClass.getInstance().dpad_left()){
                     modes = Modes.OUTTAKE_SAMPLE;
-                    Claw.getInstance().rotate(0.5);
+                   All_modes.outtake_sample_init();
                 }
                 if(GamepadClass.getInstance().dpad_down()){
                     modes = Modes.INTAKE_SAMPLE;
-                    Claw.getInstance().rotate(0.0);
-                    Claw.getInstance().move_to_angle(0.5);
-                    do {
-                        Pivot.getInstance().run_to_target(Pivot.TICKS_FOR_PARALLEL);
-                    } while (Pivot.getInstance().motorPivot.getCurrentPosition() != Pivot.TICKS_FOR_PARALLEL);
+                    All_modes.intake_sample_init();
                 }
                 All_modes.general();
                 break;
@@ -47,19 +43,19 @@ public class FSM_modes {
                 if(GamepadClass.getInstance().dpad_down()){
                     modes = Modes.GENERAL;
                 }
-                All_modes.intake_sample();
+                All_modes.intake_sample_loop();
                 break;
             case INTAKE_OUTTAKE_SPECIMEN:
                 if(GamepadClass.getInstance().dpad_right()){
                     modes = Modes.GENERAL;
                 }
-                All_modes.intake_outtake_specimen();
+                All_modes.intake_outtake_specimen_loop();
                 break;
             case OUTTAKE_SAMPLE:
                 if(GamepadClass.getInstance().dpad_left()){
                     modes = Modes.GENERAL;
                 }
-                All_modes.outtake_sample();
+                All_modes.outtake_sample_loop();
                 break;
         }
     }

@@ -23,14 +23,14 @@ public class Claw {
 
     // Servo positions
     // TODO: Adjust with actual positions
-    public static final double OPEN_POS = 1.0;
-    public static final double CLOSED_POS = 0.0;
+    public static final double OPEN_POS = 1.0;  ///schimbam cu valori reale
+    public static final double CLOSED_POS = 0.0;  ///schimbam cu valori reale
 
 
-    public static final double FRONT_BACK_INIT = 0.0;
-    public static final double OMEGA = 0.0;
+    public static final double FRONT_BACK_INIT = 0.0;  ///schimbam cu valori reale
+    public static final double OMEGA = 0.0;  ///schimbam cu valori reale
 
-    public static final double ROTATION_INIT = 0.0;
+    public static final double ROTATION_INIT = 0.0;  ///schimbam cu valori reale
 
     public static synchronized Claw getInstance() {
         if (instance == null) {
