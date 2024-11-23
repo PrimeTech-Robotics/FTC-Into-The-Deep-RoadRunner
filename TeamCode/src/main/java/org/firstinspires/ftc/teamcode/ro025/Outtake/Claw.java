@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.ro025.Gamepad.GamepadClass;
 
 public class Claw {
     private static Claw instance = null;
-    Servo openingServo = null;
+    public Servo openingServo = null;
     Servo rotationServo = null;
     Servo frontBackServo_left = null;
     Servo frontBackServo_right = null;

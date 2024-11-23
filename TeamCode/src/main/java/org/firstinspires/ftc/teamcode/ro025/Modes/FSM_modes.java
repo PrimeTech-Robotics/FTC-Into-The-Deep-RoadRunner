@@ -13,7 +13,7 @@ public class FSM_modes {
         GENERAL, INTAKE_SAMPLE, INTAKE_OUTTAKE_SPECIMEN, OUTTAKE_SAMPLE
     }
 
-    Modes modes = Modes.GENERAL;
+    public Modes modes = Modes.GENERAL;
 
     public static synchronized FSM_modes getInstance() {
         if (instance == null) {

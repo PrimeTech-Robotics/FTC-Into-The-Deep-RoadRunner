@@ -19,7 +19,31 @@ public class All_modes {
             Pivot.getInstance().loop();
         }
         public static void intake_sample(){
-            //TODO: limelight implementaion & extension
+
+            if(/*!(codu lu tudi)*/) {
+                //extindere
+            }
+
+            else{
+                Claw.getInstance().openingServo.setPosition(Claw.OPEN_POS);
+
+                do {
+                    Pivot.getInstance().run_to_target(Pivot.MIN_TICKS);
+                    Claw.getInstance().perpendicular_on_the_ground();
+                    ///cod tudi rotire
+                } while (/*cod tudi*/);
+
+                Claw.getInstance().openingServo.setPosition(Claw.CLOSED_POS);
+
+                do {
+                    Pivot.getInstance().run_to_target(Pivot.TICKS_FOR_PARALLEL);
+                    Claw.getInstance().perpendicular_on_the_ground();
+                } while (Pivot.getInstance().motorPivot.getCurrentPosition() != Pivot.TICKS_FOR_PARALLEL);
+
+                FSM_modes.getInstance().modes = FSM_modes.Modes.GENERAL;
+            }
+
+
         }
         public static void outtake_sample(){
             Extension.getInstance().loop();
