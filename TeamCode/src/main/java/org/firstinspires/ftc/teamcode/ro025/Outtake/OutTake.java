@@ -6,6 +6,12 @@ import org.firstinspires.ftc.teamcode.ro025.Modes.FSM_modes;
 public class OutTake {
     private static OutTake instance = null;
 
+    enum ReturnToInitPos{
+        ON, OFF
+    }
+
+    ReturnToInitPos returnToInitPos = ReturnToInitPos.OFF;
+
     public static synchronized OutTake getInstance() {
         if (instance == null) {
             instance = new OutTake();
@@ -17,13 +23,21 @@ public class OutTake {
         Claw.getInstance().init();
         Extension.getInstance().init();
         Pivot.getInstance().init();
-
     }
 
     public void loop() {
-        FSM_modes.getInstance().FSM();
-        if(GamepadClass.getInstance().circle()){
-            Init_pos.getInstance().return_to_init_pos();
+        switch(returnToInitPos){
+            case OFF:
+                if(GamepadClass.getInstance().circle()){
+                    returnToInitPos = ReturnToInitPos.ON;
+                }
+                FSM_modes.getInstance().FSM();
+                break;
+            case ON:
+                Init_pos.getInstance().return_to_init_pos();
+                break;
+
         }
+
     }
 }

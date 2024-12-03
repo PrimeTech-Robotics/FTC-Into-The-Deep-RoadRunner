@@ -10,21 +10,36 @@ public class Init_pos {
         return instance;
     }
 
+    enum WhatToRetract{
+        CLAW, EXTENSION, PIVOT, OVER
+    }
+
+    WhatToRetract whatToRetract = WhatToRetract.CLAW;
     public void return_to_init_pos(){
-        //get claw to initial position
-        Claw.getInstance().openingServo.setPosition(Claw.CLOSED_POS);
-        Claw.getInstance().rotationServo.setPosition(Claw.ROTATION_INIT);
-        Claw.getInstance().frontBackServo_left.setPosition(Claw.FRONT_BACK_INIT);
-        Claw.getInstance().frontBackServo_right.setPosition(Claw.FRONT_BACK_INIT);
-
-        //get extension to initial position
-        do {
-            Extension.getInstance().run_to_target(Extension.MIN_TICKS);
-        } while (Extension.getInstance().extindere_left.getCurrentPosition() != Extension.MIN_TICKS);
-
-        //get pivot to initial position
-        do {
-            Pivot.getInstance().run_to_target(Pivot.MIN_TICKS);
-        } while (Pivot.getInstance().motorPivot.getCurrentPosition() != Pivot.MIN_TICKS);
+            switch(whatToRetract){
+                case CLAW:
+                    Claw.getInstance().openingServo.setPosition(Claw.CLOSED_POS);
+                    Claw.getInstance().rotationServo.setPosition(Claw.ROTATION_INIT);
+                    Claw.getInstance().frontBackServo_left.setPosition(Claw.FRONT_BACK_INIT);
+                    Claw.getInstance().frontBackServo_right.setPosition(Claw.FRONT_BACK_INIT);
+                    whatToRetract = WhatToRetract.EXTENSION;
+                    break;
+                case EXTENSION:
+                    if (Extension.getInstance().extindere_left.getCurrentPosition() != Extension.MIN_TICKS)
+                        Extension.getInstance().run_to_target(Extension.MIN_TICKS);
+                    else
+                        whatToRetract = WhatToRetract.PIVOT;
+                    break;
+                case PIVOT:
+                    if (Pivot.getInstance().motorPivot.getCurrentPosition() != Pivot.MIN_TICKS)
+                        Pivot.getInstance().run_to_target(Pivot.MIN_TICKS);
+                    else
+                        whatToRetract = WhatToRetract.OVER;
+                    break;
+                case OVER:
+                    OutTake.getInstance().returnToInitPos = OutTake.ReturnToInitPos.OFF;
+                    whatToRetract = WhatToRetract.CLAW;
+                    break;
+            }
     }
 }
