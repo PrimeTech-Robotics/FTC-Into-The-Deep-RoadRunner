@@ -13,13 +13,18 @@ public class Extension {
 
     private PIDController controller;
 
-    public static double p = 0, i = 0, d = 0;  ///schimbam cu valori reale
-    public static double f = 0;  ///schimbam cu valori reale
+    public static double p = 0, i = 0, d = 0;
+    /// schimbam cu valori reale
+    public static double f = 0;
+    /// schimbam cu valori reale
     public static double target = 0;
     // TODO: Adjust with actual values
-    public static final double MAX_TICKS = 0.0;  ///schimbam cu valori reale
+    public static final double MAX_TICKS = 0.0;
+    /// schimbam cu valori reale
     public static final double MIN_TICKS = 0.0;
-    public final double increment = 0;  ///schimbam cu valori reale
+    public final double increment = 0;
+
+    /// schimbam cu valori reale
 
     enum LiftState {
         MAX, INRANGE, MIN
@@ -55,30 +60,29 @@ public class Extension {
     }
 
     //PID stuff
-    public void loop(){
+    public void loop() {
         double local_target = fsm();
         run_to_target(local_target);
     }
 
     public double fsm() {
-        //FSM PID type shit
         double last_target = target;
 
         switch (liftState) {
             case MIN:
-                target = target + increment * GamepadClass.getInstance().right_trigger();
+                target += increment * GamepadClass.getInstance().right_trigger();
                 if (last_target != target) {
                     liftState = LiftState.INRANGE;
                 }
                 break;
             case MAX:
-                target = target - increment * GamepadClass.getInstance().left_trigger();
+                target -= increment * GamepadClass.getInstance().left_trigger();
                 if (last_target != target) {
                     liftState = LiftState.INRANGE;
                 }
                 break;
             case INRANGE:
-                target = target + increment * GamepadClass.getInstance().right_trigger() - increment * GamepadClass.getInstance().left_trigger();
+                target += increment * GamepadClass.getInstance().right_trigger() - increment * GamepadClass.getInstance().left_trigger();
                 if (target > MAX_TICKS) {
                     liftState = LiftState.MAX;
                     target = MAX_TICKS;
@@ -91,19 +95,19 @@ public class Extension {
         }
         return target;
     }
-     public void run_to_target(double target){
-         controller.setPID(p, i, d);
-         int lift_pos = extindere_left.getCurrentPosition();
-         double pid = controller.calculate(lift_pos, target);
-         double power = pid + f;
 
-         // TODO: Discuss FeedForward
+    public void run_to_target(double target) {
+        controller.setPID(p, i, d);
+        int lift_pos = extindere_left.getCurrentPosition();
+        double pid = controller.calculate(lift_pos, target);
+        double power = pid + f;
 
-         extindere_right.setPower(power);
-         extindere_left.setPower(power);
+        extindere_right.setPower(power);
+        extindere_left.setPower(power);
 
-        /*telemetry.addData("pos ", lift_pos);
-        telemetry.addData("target ", target);
-        telemetry.update();*/
-     }
+        // Telemetry
+        // telemetry.addData("pos ", lift_pos);
+        // telemetry.addData("target ", target);
+        // telemetry.update();
+    }
 }

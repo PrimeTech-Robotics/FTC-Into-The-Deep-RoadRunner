@@ -2,9 +2,7 @@ package org.firstinspires.ftc.teamcode.ro025.Outtake;
 
 import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
 
-
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.ro025.Gamepad.GamepadClass;
 
@@ -23,14 +21,20 @@ public class Claw {
 
     // Servo positions
     // TODO: Adjust with actual positions
-    public static final double OPEN_POS = 1.0;  ///schimbam cu valori reale
-    public static final double CLOSED_POS = 0.0;  ///schimbam cu valori reale
+    public static final double OPEN_POS = 1.0;
+    /// schimbam cu valori reale
+    public static final double CLOSED_POS = 0.0;
+    /// schimbam cu valori reale
 
 
-    public static final double FRONT_BACK_INIT = 0.0;  ///schimbam cu valori reale
-    public static final double OMEGA = 0.0;  ///schimbam cu valori reale
+    public static final double FRONT_BACK_INIT = 0.0;
+    /// schimbam cu valori reale
+    public static final double OMEGA = 0.0;
+    /// schimbam cu valori reale
 
-    public static final double ROTATION_INIT = 0.0;  ///schimbam cu valori reale
+    public static final double ROTATION_INIT = 0.0;
+
+    /// schimbam cu valori reale
 
     public static synchronized Claw getInstance() {
         if (instance == null) {
@@ -55,53 +59,53 @@ public class Claw {
         frontBackServo_right.setPosition(FRONT_BACK_INIT);
     }
 
-    public void parallel_to_the_ground_front(){
-        double alpha = Pivot.getInstance().motorPivot.getCurrentPosition()/2.088/180 - (0.5 - OMEGA/180);
+    public void parallel_to_the_ground_front() {
+        double alpha = Pivot.getInstance().motorPivot.getCurrentPosition() / 2.088 / 180 - (0.5 - OMEGA / 180);
 
         frontBackServo_left.setPosition(alpha);
         frontBackServo_right.setPosition(alpha);
     }
 
-    public void perpendicular_on_the_ground(){
-        double alpha = Pivot.getInstance().motorPivot.getCurrentPosition()/2.088/180 + OMEGA/180;
+    public void perpendicular_on_the_ground() {
+        double alpha = Pivot.getInstance().motorPivot.getCurrentPosition() / 2.088 / 180 + OMEGA / 180;
 
         frontBackServo_left.setPosition(alpha);
         frontBackServo_right.setPosition(alpha);
     }
 
     public void parallel_to_the_ground_back() {
-        double alpha = -(1 -(Pivot.getInstance().motorPivot.getCurrentPosition()/2.088/180 - (0.5 - OMEGA/180)));
-        if(alpha < -0.5){
+        double alpha = -(1 - (Pivot.getInstance().motorPivot.getCurrentPosition() / 2.088 / 180 - (0.5 - OMEGA / 180)));
+        if (alpha < -0.5) {
             alpha = -0.5;
         }
         frontBackServo_left.setPosition(alpha);
         frontBackServo_right.setPosition(alpha);
     }
 
-    public void move_to_angle(double angle){
+    public void move_to_angle(double angle) {
         frontBackServo_left.setPosition(angle);
         frontBackServo_right.setPosition(angle);
     }
+
+    // Opening/closing FSM
     public void open_close() {
-        // Opening/closing FSM
         switch (openState) {
             case OPEN:
                 if (GamepadClass.getInstance().cross()) {
-                    // Transition to CLOSED state
                     openingServo.setPosition(CLOSED_POS);
                     openState = OpenState.CLOSED;
                 }
                 break;
             case CLOSED:
                 if (GamepadClass.getInstance().cross()) {
-                    // Transition to OPEN state
                     openingServo.setPosition(OPEN_POS);
                     openState = OpenState.OPEN;
                 }
                 break;
         }
     }
-    public void rotate(double angle){
+
+    public void rotate(double angle) {
         rotationServo.setPosition(angle);
     }
 }

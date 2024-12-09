@@ -6,8 +6,6 @@ import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.tel
 import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 
-import org.firstinspires.ftc.teamcode.ro025.Outtake.Claw;
-
 public class Limelight {
     private static Limelight instance = null;
     private Limelight3A limelight;
@@ -18,14 +16,16 @@ public class Limelight {
         }
         return instance;
     }
-    public void init(){
+
+    public void init() {
         limelight = hardwareMap.get(Limelight3A.class, "limelight");
         telemetry.setMsTransmissionInterval(11);
         limelight.pipelineSwitch(1);
         limelight.start();
 
     }
-    public void loop(){
+
+    public void loop() {
         LLResult result = limelight.getLatestResult();
         if (result != null) {
             if (result.isValid()) {

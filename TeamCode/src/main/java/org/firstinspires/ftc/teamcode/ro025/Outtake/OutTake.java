@@ -6,7 +6,7 @@ import org.firstinspires.ftc.teamcode.ro025.Modes.FSM_modes;
 public class OutTake {
     private static OutTake instance = null;
 
-    enum ReturnToInitPos{
+    enum ReturnToInitPos {
         ON, OFF
     }
 
@@ -26,9 +26,9 @@ public class OutTake {
     }
 
     public void loop() {
-        switch(returnToInitPos){
+        switch (returnToInitPos) {
             case OFF:
-                if(GamepadClass.getInstance().circle()){
+                if (GamepadClass.getInstance().circle()) {
                     returnToInitPos = ReturnToInitPos.ON;
                 }
                 FSM_modes.getInstance().FSM();
