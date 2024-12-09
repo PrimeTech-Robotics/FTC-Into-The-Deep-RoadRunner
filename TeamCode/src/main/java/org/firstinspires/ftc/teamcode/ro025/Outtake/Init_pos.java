@@ -25,13 +25,13 @@ public class Init_pos {
                     whatToRetract = WhatToRetract.EXTENSION;
                     break;
                 case EXTENSION:
-                    if (Extension.getInstance().extindere_left.getCurrentPosition() != Extension.MIN_TICKS)
+                    if (Extension.getInstance().extindere_left.getCurrentPosition() != Extension.MIN_TICKS/**trebuie aproximat**/)
                         Extension.getInstance().run_to_target(Extension.MIN_TICKS);
                     else
                         whatToRetract = WhatToRetract.PIVOT;
                     break;
                 case PIVOT:
-                    if (Pivot.getInstance().motorPivot.getCurrentPosition() != Pivot.MIN_TICKS)
+                    if (Pivot.getInstance().motorPivot.getCurrentPosition() != Pivot.MIN_TICKS/**trebuie aproximat**/)
                         Pivot.getInstance().run_to_target(Pivot.MIN_TICKS);
                     else
                         whatToRetract = WhatToRetract.OVER;

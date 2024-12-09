@@ -15,6 +15,12 @@ public class FSM_modes {
 
     public Modes modes = Modes.GENERAL;
 
+    enum Init{
+        OVER, NOT_OVER
+    }
+
+    public Init  init = Init.NOT_OVER;
+
     public static synchronized FSM_modes getInstance() {
         if (instance == null) {
             instance = new FSM_modes();
@@ -35,15 +41,22 @@ public class FSM_modes {
                 }
                 if(GamepadClass.getInstance().dpad_down()){
                     modes = Modes.INTAKE_SAMPLE;
-                    All_modes.intake_sample_init();
+                    init = Init.NOT_OVER;
                 }
                 All_modes.general();
                 break;
             case INTAKE_SAMPLE:
-                if(GamepadClass.getInstance().dpad_down()){
-                    modes = Modes.GENERAL;
+                switch(init){
+                    case NOT_OVER:
+                        All_modes.intake_sample_init();
+                        break;
+                    case OVER:
+                        if(GamepadClass.getInstance().dpad_down()){
+                            modes = Modes.GENERAL;
+                        }
+                        All_modes.intake_sample_loop();
+                        break;
                 }
-                All_modes.intake_sample_loop();
                 break;
             case INTAKE_OUTTAKE_SPECIMEN:
                 if(GamepadClass.getInstance().dpad_right()){
