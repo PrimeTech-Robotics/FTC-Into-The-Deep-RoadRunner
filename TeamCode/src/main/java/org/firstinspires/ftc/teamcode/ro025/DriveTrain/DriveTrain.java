@@ -56,3 +56,4 @@ public class DriveTrain {
         return 0.5 * Math.tan(1.12 * val);
     }
 }
+// vezi ca s-ar putea sa trebuiasca sa fie de tip float motoarele, nu brake, din cauza la smooth control. deci daca se comporta ciudat prima chestie pe care o schimbati ii asta (de la sover)
