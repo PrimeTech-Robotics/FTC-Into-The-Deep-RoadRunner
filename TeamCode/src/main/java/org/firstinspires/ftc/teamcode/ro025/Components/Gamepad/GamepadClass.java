@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.ro025.Gamepad;
+package org.firstinspires.ftc.teamcode.ro025.Components.Gamepad;
 
 import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.gamepad1;
 

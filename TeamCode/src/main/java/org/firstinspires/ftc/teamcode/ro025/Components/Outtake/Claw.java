@@ -1,10 +1,10 @@
-package org.firstinspires.ftc.teamcode.ro025.Outtake;
+package org.firstinspires.ftc.teamcode.ro025.Components.Outtake;
 
 import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
 
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.teamcode.ro025.Gamepad.GamepadClass;
+import org.firstinspires.ftc.teamcode.ro025.Components.Gamepad.GamepadClass;
 
 public class Claw {
     // Servo positions

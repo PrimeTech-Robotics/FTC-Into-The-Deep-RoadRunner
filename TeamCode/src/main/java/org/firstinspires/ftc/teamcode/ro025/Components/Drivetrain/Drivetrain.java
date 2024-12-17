@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.ro025.DriveTrain;
+package org.firstinspires.ftc.teamcode.ro025.Components.Drivetrain;
 
 import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.BRAKE;
 import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.gamepad1;
@@ -7,16 +7,16 @@ import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.har
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
-public class DriveTrain {
-    private static DriveTrain instance = null;
+public class Drivetrain {
+    private static Drivetrain instance = null;
     DcMotor leftBack = null;
     DcMotor leftFront = null;
     DcMotor rightBack = null;
     DcMotor rightFront = null;
 
-    public static synchronized DriveTrain getInstance() {
+    public static synchronized Drivetrain getInstance() {
         if (instance == null) {
-            instance = new DriveTrain();
+            instance = new Drivetrain();
         }
         return instance;
     }

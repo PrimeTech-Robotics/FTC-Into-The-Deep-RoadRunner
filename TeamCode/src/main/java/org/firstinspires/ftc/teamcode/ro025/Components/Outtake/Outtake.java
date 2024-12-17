@@ -1,15 +1,15 @@
-package org.firstinspires.ftc.teamcode.ro025.Outtake;
+package org.firstinspires.ftc.teamcode.ro025.Components.Outtake;
 
-import org.firstinspires.ftc.teamcode.ro025.Gamepad.GamepadClass;
-import org.firstinspires.ftc.teamcode.ro025.Modes.FSM_modes;
+import org.firstinspires.ftc.teamcode.ro025.Components.Gamepad.GamepadClass;
+import org.firstinspires.ftc.teamcode.ro025.Components.Modes.FSM_modes;
 
-public class OutTake {
-    private static OutTake instance = null;
+public class Outtake {
+    private static Outtake instance = null;
     ReturnToInitPos returnToInitPos = ReturnToInitPos.OFF;
 
-    public static synchronized OutTake getInstance() {
+    public static synchronized Outtake getInstance() {
         if (instance == null) {
-            instance = new OutTake();
+            instance = new Outtake();
         }
         return instance;
     }
@@ -29,7 +29,7 @@ public class OutTake {
                 FSM_modes.getInstance().FSM();
                 break;
             case ON:
-                Init_pos.getInstance().return_to_init_pos();
+                InitPos.getInstance().return_to_init_pos();
                 break;
 
         }

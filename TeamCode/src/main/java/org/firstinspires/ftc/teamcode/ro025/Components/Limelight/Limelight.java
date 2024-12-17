@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.ro025.Limelight;
+package org.firstinspires.ftc.teamcode.ro025.Components.Limelight;
 
 import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
 import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;

@@ -1,6 +1,6 @@
-package org.firstinspires.ftc.teamcode.ro025.Modes;
+package org.firstinspires.ftc.teamcode.ro025.Components.Modes;
 
-import org.firstinspires.ftc.teamcode.ro025.Gamepad.GamepadClass;
+import org.firstinspires.ftc.teamcode.ro025.Components.Gamepad.GamepadClass;
 
 public class FSM_modes {
     private static FSM_modes instance = null;

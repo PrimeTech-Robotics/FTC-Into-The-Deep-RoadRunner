@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.ro025.Outtake;
+package org.firstinspires.ftc.teamcode.ro025.Components.Outtake;
 
 import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
 
@@ -6,7 +6,7 @@ import com.arcrobotics.ftclib.controller.PIDController;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
-import org.firstinspires.ftc.teamcode.ro025.Gamepad.GamepadClass;
+import org.firstinspires.ftc.teamcode.ro025.Components.Gamepad.GamepadClass;
 
 public class Pivot {
     // TODO: Adjust with actual values

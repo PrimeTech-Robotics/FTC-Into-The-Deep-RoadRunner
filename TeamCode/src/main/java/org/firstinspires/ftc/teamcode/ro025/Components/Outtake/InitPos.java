@@ -1,12 +1,12 @@
-package org.firstinspires.ftc.teamcode.ro025.Outtake;
+package org.firstinspires.ftc.teamcode.ro025.Components.Outtake;
 
-public class Init_pos {
-    private static Init_pos instance = null;
+public class InitPos {
+    private static InitPos instance = null;
     WhatToRetract whatToRetract = WhatToRetract.CLAW;
 
-    public static synchronized Init_pos getInstance() {
+    public static synchronized InitPos getInstance() {
         if (instance == null) {
-            instance = new Init_pos();
+            instance = new InitPos();
         }
         return instance;
     }
@@ -35,7 +35,7 @@ public class Init_pos {
                 }
                 break;
             case OVER:
-                OutTake.getInstance().returnToInitPos = OutTake.ReturnToInitPos.OFF;
+                Outtake.getInstance().returnToInitPos = Outtake.ReturnToInitPos.OFF;
                 whatToRetract = WhatToRetract.CLAW;
                 break;
         }

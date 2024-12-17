@@ -1,8 +1,8 @@
-package org.firstinspires.ftc.teamcode.ro025.Modes;
+package org.firstinspires.ftc.teamcode.ro025.Components.Modes;
 
-import org.firstinspires.ftc.teamcode.ro025.Outtake.Claw;
-import org.firstinspires.ftc.teamcode.ro025.Outtake.Extension;
-import org.firstinspires.ftc.teamcode.ro025.Outtake.Pivot;
+import org.firstinspires.ftc.teamcode.ro025.Components.Outtake.Claw;
+import org.firstinspires.ftc.teamcode.ro025.Components.Outtake.Extension;
+import org.firstinspires.ftc.teamcode.ro025.Components.Outtake.Pivot;
 
 public class All_modes {
     static double pivotTarget = Pivot.TICKS_FOR_PARALLEL;
