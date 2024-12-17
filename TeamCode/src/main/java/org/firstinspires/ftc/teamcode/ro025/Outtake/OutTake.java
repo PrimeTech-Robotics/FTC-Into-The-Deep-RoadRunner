@@ -5,11 +5,6 @@ import org.firstinspires.ftc.teamcode.ro025.Modes.FSM_modes;
 
 public class OutTake {
     private static OutTake instance = null;
-
-    enum ReturnToInitPos {
-        ON, OFF
-    }
-
     ReturnToInitPos returnToInitPos = ReturnToInitPos.OFF;
 
     public static synchronized OutTake getInstance() {
@@ -39,5 +34,9 @@ public class OutTake {
 
         }
 
+    }
+
+    enum ReturnToInitPos {
+        ON, OFF
     }
 }

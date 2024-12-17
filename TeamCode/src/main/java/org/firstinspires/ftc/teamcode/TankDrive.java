@@ -43,7 +43,6 @@ import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
@@ -60,46 +59,8 @@ import java.util.List;
 
 @Config
 public final class TankDrive {
-    public static class Params {
-        // IMU orientation
-        // TODO: fill in these values based on
-        //   see https://ftc-docs.firstinspires.org/en/latest/programming_resources/imu/imu.html?highlight=imu#physical-hub-mounting
-        public RevHubOrientationOnRobot.LogoFacingDirection logoFacingDirection =
-                RevHubOrientationOnRobot.LogoFacingDirection.UP;
-        public RevHubOrientationOnRobot.UsbFacingDirection usbFacingDirection =
-                RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;
-
-        // drive model parameters
-        public double inPerTick = 0;
-        public double trackWidthTicks = 0;
-
-        // feedforward parameters (in tick units)
-        public double kS = 0;
-        public double kV = 0;
-        public double kA = 0;
-
-        // path profile parameters (in inches)
-        public double maxWheelVel = 50;
-        public double minProfileAccel = -30;
-        public double maxProfileAccel = 50;
-
-        // turn profile parameters (in radians)
-        public double maxAngVel = Math.PI; // shared with path
-        public double maxAngAccel = Math.PI;
-
-        // path controller gains
-        public double ramseteZeta = 0.7; // in the range (0, 1)
-        public double ramseteBBar = 2.0; // positive
-
-        // turn controller gains
-        public double turnGain = 0.0;
-        public double turnVelGain = 0.0;
-    }
-
     public static Params PARAMS = new Params();
-
     public final TankKinematics kinematics = new TankKinematics(PARAMS.inPerTick * PARAMS.trackWidthTicks);
-
     public final TurnConstraints defaultTurnConstraints = new TurnConstraints(
             PARAMS.maxAngVel, -PARAMS.maxAngAccel, PARAMS.maxAngAccel);
     public final VelConstraint defaultVelConstraint =
@@ -109,108 +70,16 @@ public final class TankDrive {
             ));
     public final AccelConstraint defaultAccelConstraint =
             new ProfileAccelConstraint(PARAMS.minProfileAccel, PARAMS.maxProfileAccel);
-
     public final List<DcMotorEx> leftMotors, rightMotors;
-
     public final LazyImu lazyImu;
-
     public final VoltageSensor voltageSensor;
-
     public final Localizer localizer;
-    public Pose2d pose;
-
     private final LinkedList<Pose2d> poseHistory = new LinkedList<>();
-
     private final DownsampledWriter estimatedPoseWriter = new DownsampledWriter("ESTIMATED_POSE", 50_000_000);
     private final DownsampledWriter targetPoseWriter = new DownsampledWriter("TARGET_POSE", 50_000_000);
     private final DownsampledWriter driveCommandWriter = new DownsampledWriter("DRIVE_COMMAND", 50_000_000);
-
     private final DownsampledWriter tankCommandWriter = new DownsampledWriter("TANK_COMMAND", 50_000_000);
-
-    public class DriveLocalizer implements Localizer {
-        public final List<Encoder> leftEncs, rightEncs;
-
-        private double lastLeftPos, lastRightPos;
-        private boolean initialized;
-
-        public DriveLocalizer() {
-            {
-                List<Encoder> leftEncs = new ArrayList<>();
-                for (DcMotorEx m : leftMotors) {
-                    Encoder e = new OverflowEncoder(new RawEncoder(m));
-                    leftEncs.add(e);
-                }
-                this.leftEncs = Collections.unmodifiableList(leftEncs);
-            }
-
-            {
-                List<Encoder> rightEncs = new ArrayList<>();
-                for (DcMotorEx m : rightMotors) {
-                    Encoder e = new OverflowEncoder(new RawEncoder(m));
-                    rightEncs.add(e);
-                }
-                this.rightEncs = Collections.unmodifiableList(rightEncs);
-            }
-
-            // TODO: reverse encoder directions if needed
-            //   leftEncs.get(0).setDirection(DcMotorSimple.Direction.REVERSE);
-        }
-
-        @Override
-        public Twist2dDual<Time> update() {
-            List<PositionVelocityPair> leftReadings = new ArrayList<>(), rightReadings = new ArrayList<>();
-            double meanLeftPos = 0.0, meanLeftVel = 0.0;
-            for (Encoder e : leftEncs) {
-                PositionVelocityPair p = e.getPositionAndVelocity();
-                meanLeftPos += p.position;
-                meanLeftVel += p.velocity;
-                leftReadings.add(p);
-            }
-            meanLeftPos /= leftEncs.size();
-            meanLeftVel /= leftEncs.size();
-
-            double meanRightPos = 0.0, meanRightVel = 0.0;
-            for (Encoder e : rightEncs) {
-                PositionVelocityPair p = e.getPositionAndVelocity();
-                meanRightPos += p.position;
-                meanRightVel += p.velocity;
-                rightReadings.add(p);
-            }
-            meanRightPos /= rightEncs.size();
-            meanRightVel /= rightEncs.size();
-
-            FlightRecorder.write("TANK_LOCALIZER_INPUTS",
-                     new TankLocalizerInputsMessage(leftReadings, rightReadings));
-
-            if (!initialized) {
-                initialized = true;
-
-                lastLeftPos = meanLeftPos;
-                lastRightPos = meanRightPos;
-
-                return new Twist2dDual<>(
-                        Vector2dDual.constant(new Vector2d(0.0, 0.0), 2),
-                        DualNum.constant(0.0, 2)
-                );
-            }
-
-            TankKinematics.WheelIncrements<Time> twist = new TankKinematics.WheelIncrements<>(
-                    new DualNum<Time>(new double[] {
-                            meanLeftPos - lastLeftPos,
-                            meanLeftVel
-                    }).times(PARAMS.inPerTick),
-                    new DualNum<Time>(new double[] {
-                            meanRightPos - lastRightPos,
-                            meanRightVel,
-                    }).times(PARAMS.inPerTick)
-            );
-
-            lastLeftPos = meanLeftPos;
-            lastRightPos = meanRightPos;
-
-            return kinematics.forward(twist);
-        }
-    }
+    public Pose2d pose;
 
     public TankDrive(HardwareMap hardwareMap, Pose2d pose) {
         this.pose = pose;
@@ -266,11 +135,178 @@ public final class TankDrive {
         }
     }
 
+    public PoseVelocity2d updatePoseEstimate() {
+        Twist2dDual<Time> twist = localizer.update();
+        pose = pose.plus(twist.value());
+
+        poseHistory.add(pose);
+        while (poseHistory.size() > 100) {
+            poseHistory.removeFirst();
+        }
+
+        estimatedPoseWriter.write(new PoseMessage(pose));
+
+        return twist.velocity().value();
+    }
+
+    private void drawPoseHistory(Canvas c) {
+        double[] xPoints = new double[poseHistory.size()];
+        double[] yPoints = new double[poseHistory.size()];
+
+        int i = 0;
+        for (Pose2d t : poseHistory) {
+            xPoints[i] = t.position.x;
+            yPoints[i] = t.position.y;
+
+            i++;
+        }
+
+        c.setStrokeWidth(1);
+        c.setStroke("#3F51B5");
+        c.strokePolyline(xPoints, yPoints);
+    }
+
+    public TrajectoryActionBuilder actionBuilder(Pose2d beginPose) {
+        return new TrajectoryActionBuilder(
+                TurnAction::new,
+                FollowTrajectoryAction::new,
+                new TrajectoryBuilderParams(
+                        1e-6,
+                        new ProfileParams(
+                                0.25, 0.1, 1e-2
+                        )
+                ),
+                beginPose, 0.0,
+                defaultTurnConstraints,
+                defaultVelConstraint, defaultAccelConstraint
+        );
+    }
+
+    public static class Params {
+        // IMU orientation
+        // TODO: fill in these values based on
+        //   see https://ftc-docs.firstinspires.org/en/latest/programming_resources/imu/imu.html?highlight=imu#physical-hub-mounting
+        public RevHubOrientationOnRobot.LogoFacingDirection logoFacingDirection =
+                RevHubOrientationOnRobot.LogoFacingDirection.UP;
+        public RevHubOrientationOnRobot.UsbFacingDirection usbFacingDirection =
+                RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;
+
+        // drive model parameters
+        public double inPerTick = 0;
+        public double trackWidthTicks = 0;
+
+        // feedforward parameters (in tick units)
+        public double kS = 0;
+        public double kV = 0;
+        public double kA = 0;
+
+        // path profile parameters (in inches)
+        public double maxWheelVel = 50;
+        public double minProfileAccel = -30;
+        public double maxProfileAccel = 50;
+
+        // turn profile parameters (in radians)
+        public double maxAngVel = Math.PI; // shared with path
+        public double maxAngAccel = Math.PI;
+
+        // path controller gains
+        public double ramseteZeta = 0.7; // in the range (0, 1)
+        public double ramseteBBar = 2.0; // positive
+
+        // turn controller gains
+        public double turnGain = 0.0;
+        public double turnVelGain = 0.0;
+    }
+
+    public class DriveLocalizer implements Localizer {
+        public final List<Encoder> leftEncs, rightEncs;
+
+        private double lastLeftPos, lastRightPos;
+        private boolean initialized;
+
+        public DriveLocalizer() {
+            {
+                List<Encoder> leftEncs = new ArrayList<>();
+                for (DcMotorEx m : leftMotors) {
+                    Encoder e = new OverflowEncoder(new RawEncoder(m));
+                    leftEncs.add(e);
+                }
+                this.leftEncs = Collections.unmodifiableList(leftEncs);
+            }
+
+            {
+                List<Encoder> rightEncs = new ArrayList<>();
+                for (DcMotorEx m : rightMotors) {
+                    Encoder e = new OverflowEncoder(new RawEncoder(m));
+                    rightEncs.add(e);
+                }
+                this.rightEncs = Collections.unmodifiableList(rightEncs);
+            }
+
+            // TODO: reverse encoder directions if needed
+            //   leftEncs.get(0).setDirection(DcMotorSimple.Direction.REVERSE);
+        }
+
+        @Override
+        public Twist2dDual<Time> update() {
+            List<PositionVelocityPair> leftReadings = new ArrayList<>(), rightReadings = new ArrayList<>();
+            double meanLeftPos = 0.0, meanLeftVel = 0.0;
+            for (Encoder e : leftEncs) {
+                PositionVelocityPair p = e.getPositionAndVelocity();
+                meanLeftPos += p.position;
+                meanLeftVel += p.velocity;
+                leftReadings.add(p);
+            }
+            meanLeftPos /= leftEncs.size();
+            meanLeftVel /= leftEncs.size();
+
+            double meanRightPos = 0.0, meanRightVel = 0.0;
+            for (Encoder e : rightEncs) {
+                PositionVelocityPair p = e.getPositionAndVelocity();
+                meanRightPos += p.position;
+                meanRightVel += p.velocity;
+                rightReadings.add(p);
+            }
+            meanRightPos /= rightEncs.size();
+            meanRightVel /= rightEncs.size();
+
+            FlightRecorder.write("TANK_LOCALIZER_INPUTS",
+                    new TankLocalizerInputsMessage(leftReadings, rightReadings));
+
+            if (!initialized) {
+                initialized = true;
+
+                lastLeftPos = meanLeftPos;
+                lastRightPos = meanRightPos;
+
+                return new Twist2dDual<>(
+                        Vector2dDual.constant(new Vector2d(0.0, 0.0), 2),
+                        DualNum.constant(0.0, 2)
+                );
+            }
+
+            TankKinematics.WheelIncrements<Time> twist = new TankKinematics.WheelIncrements<>(
+                    new DualNum<Time>(new double[]{
+                            meanLeftPos - lastLeftPos,
+                            meanLeftVel
+                    }).times(PARAMS.inPerTick),
+                    new DualNum<Time>(new double[]{
+                            meanRightPos - lastRightPos,
+                            meanRightVel,
+                    }).times(PARAMS.inPerTick)
+            );
+
+            lastLeftPos = meanLeftPos;
+            lastRightPos = meanRightPos;
+
+            return kinematics.forward(twist);
+        }
+    }
+
     public final class FollowTrajectoryAction implements Action {
         public final TimeTrajectory timeTrajectory;
-        private double beginTs = -1;
-
         private final double[] xPoints, yPoints;
+        private double beginTs = -1;
 
         public FollowTrajectoryAction(TimeTrajectory t) {
             timeTrajectory = t;
@@ -407,7 +443,7 @@ public final class TankDrive {
                     Vector2dDual.constant(new Vector2d(0, 0), 3),
                     txWorldTarget.heading.velocity().plus(
                             PARAMS.turnGain * pose.heading.minus(txWorldTarget.heading.value()) +
-                            PARAMS.turnVelGain * (robotVelRobot.angVel - txWorldTarget.heading.velocity().value())
+                                    PARAMS.turnVelGain * (robotVelRobot.angVel - txWorldTarget.heading.velocity().value())
                     )
             );
             driveCommandWriter.write(new DriveCommandMessage(command));
@@ -447,52 +483,5 @@ public final class TankDrive {
             c.setStroke("#7C4DFF7A");
             c.fillCircle(turn.beginPose.position.x, turn.beginPose.position.y, 2);
         }
-    }
-
-    public PoseVelocity2d updatePoseEstimate() {
-        Twist2dDual<Time> twist = localizer.update();
-        pose = pose.plus(twist.value());
-
-        poseHistory.add(pose);
-        while (poseHistory.size() > 100) {
-            poseHistory.removeFirst();
-        }
-
-        estimatedPoseWriter.write(new PoseMessage(pose));
-
-        return twist.velocity().value();
-    }
-
-    private void drawPoseHistory(Canvas c) {
-        double[] xPoints = new double[poseHistory.size()];
-        double[] yPoints = new double[poseHistory.size()];
-
-        int i = 0;
-        for (Pose2d t : poseHistory) {
-            xPoints[i] = t.position.x;
-            yPoints[i] = t.position.y;
-
-            i++;
-        }
-
-        c.setStrokeWidth(1);
-        c.setStroke("#3F51B5");
-        c.strokePolyline(xPoints, yPoints);
-    }
-
-    public TrajectoryActionBuilder actionBuilder(Pose2d beginPose) {
-        return new TrajectoryActionBuilder(
-                TurnAction::new,
-                FollowTrajectoryAction::new,
-                new TrajectoryBuilderParams(
-                        1e-6,
-                        new ProfileParams(
-                                0.25, 0.1, 1e-2
-                        )
-                ),
-                beginPose, 0.0,
-                defaultTurnConstraints,
-                defaultVelConstraint, defaultAccelConstraint
-        );
     }
 }

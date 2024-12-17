@@ -9,32 +9,22 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import org.firstinspires.ftc.teamcode.ro025.Gamepad.GamepadClass;
 
 public class Pivot {
-    private PIDController controller;
-
-    public static double p = 0, i = 0, d = 0;
-    /// schimbam cu valori reale
-    public static double f = 0;
-    /// schimbam cu valori reale
-    public static double target = 0;
     // TODO: Adjust with actual values
     public static final double MAX_TICKS = 0;
     /// schimbam cu valori reale
     public static final double MIN_TICKS = 0;
     public static final double TICKS_FOR_PARALLEL = 0;
+    public static double p = 0, i = 0, d = 0;
+    /// schimbam cu valori reale
+    public static double f = 0;
+    /// schimbam cu valori reale
+    public static double target = 0;
+    private static Pivot instance = null;
     /// schimbam cu valori reale
     public final double increment = 0;
-
-    /// schimbam cu valori reale
-
-    enum LiftState {
-        MAX, INRANGE, MIN
-    }
-
-    LiftState liftState = LiftState.MIN;
-
     public DcMotorEx motorPivot = null;
-
-    private static Pivot instance = null;
+    LiftState liftState = LiftState.MIN;
+    private PIDController controller;
 
     public static synchronized Pivot getInstance() {
         if (instance == null) {
@@ -105,6 +95,12 @@ public class Pivot {
         // telemetry.addData("pos ", pivot_pos);
         // telemetry.addData("target ", target);
         // telemetry.update();
+    }
+
+    /// schimbam cu valori reale
+
+    enum LiftState {
+        MAX, INRANGE, MIN
     }
 
 }

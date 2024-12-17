@@ -9,6 +9,7 @@ import org.firstinspires.ftc.teamcode.ro025.Gamepad.GamepadClass;
 import org.firstinspires.ftc.teamcode.ro025.Hang.Hang;
 import org.firstinspires.ftc.teamcode.ro025.Limelight.Limelight;
 import org.firstinspires.ftc.teamcode.ro025.Outtake.OutTake;
+
 //ne mai trebuie ceva aici sa porneasca? ionkno
 @TeleOp(name = "TeleOp25")
 public class TeleOp25 extends OpMode {

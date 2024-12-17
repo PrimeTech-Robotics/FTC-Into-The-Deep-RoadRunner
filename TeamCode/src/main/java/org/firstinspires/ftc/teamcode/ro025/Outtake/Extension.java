@@ -11,31 +11,21 @@ import org.firstinspires.ftc.teamcode.ro025.Gamepad.GamepadClass;
 
 public class Extension {
 
-    private PIDController controller;
-
+    // TODO: Adjust with actual values
+    public static final double MAX_TICKS = 0.0;
+    /// schimbam cu valori reale
+    public static final double MIN_TICKS = 0.0;
     public static double p = 0, i = 0, d = 0;
     /// schimbam cu valori reale
     public static double f = 0;
     /// schimbam cu valori reale
     public static double target = 0;
-    // TODO: Adjust with actual values
-    public static final double MAX_TICKS = 0.0;
-    /// schimbam cu valori reale
-    public static final double MIN_TICKS = 0.0;
+    private static Extension instance = null;
     public final double increment = 0;
-
-    /// schimbam cu valori reale
-
-    enum LiftState {
-        MAX, INRANGE, MIN
-    }
-
-    LiftState liftState = LiftState.MIN;
-
     public DcMotorEx extindere_left = null;
     public DcMotorEx extindere_right = null;
-
-    private static Extension instance = null;
+    LiftState liftState = LiftState.MIN;
+    private PIDController controller;
 
     public static synchronized Extension getInstance() {
         if (instance == null) {
@@ -109,5 +99,11 @@ public class Extension {
         // telemetry.addData("pos ", lift_pos);
         // telemetry.addData("target ", target);
         // telemetry.update();
+    }
+
+    /// schimbam cu valori reale
+
+    enum LiftState {
+        MAX, INRANGE, MIN
     }
 }

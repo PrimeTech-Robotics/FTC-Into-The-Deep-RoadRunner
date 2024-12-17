@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.ro025.Outtake;
 
 public class Init_pos {
     private static Init_pos instance = null;
+    WhatToRetract whatToRetract = WhatToRetract.CLAW;
 
     public static synchronized Init_pos getInstance() {
         if (instance == null) {
@@ -9,12 +10,6 @@ public class Init_pos {
         }
         return instance;
     }
-
-    enum WhatToRetract {
-        CLAW, EXTENSION, PIVOT, OVER
-    }
-
-    WhatToRetract whatToRetract = WhatToRetract.CLAW;
 
     public void return_to_init_pos() {
         switch (whatToRetract) {
@@ -44,5 +39,9 @@ public class Init_pos {
                 whatToRetract = WhatToRetract.CLAW;
                 break;
         }
+    }
+
+    enum WhatToRetract {
+        CLAW, EXTENSION, PIVOT, OVER
     }
 }

@@ -4,17 +4,7 @@ import org.firstinspires.ftc.teamcode.ro025.Gamepad.GamepadClass;
 
 public class FSM_modes {
     private static FSM_modes instance = null;
-
-    enum Modes {
-        GENERAL, INTAKE_SAMPLE, INTAKE_OUTTAKE_SPECIMEN, OUTTAKE_SAMPLE
-    }
-
     public Modes modes = Modes.GENERAL;
-
-    enum Init {
-        OVER, NOT_OVER
-    }
-
     public Init init = Init.NOT_OVER;
 
     public static synchronized FSM_modes getInstance() {
@@ -67,5 +57,13 @@ public class FSM_modes {
                 All_modes.outtake_sample_loop();
                 break;
         }
+    }
+
+    enum Modes {
+        GENERAL, INTAKE_SAMPLE, INTAKE_OUTTAKE_SPECIMEN, OUTTAKE_SAMPLE
+    }
+
+    enum Init {
+        OVER, NOT_OVER
     }
 }

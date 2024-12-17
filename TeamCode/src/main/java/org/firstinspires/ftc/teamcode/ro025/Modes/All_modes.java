@@ -9,25 +9,8 @@ public class All_modes {
     static double extensionTarget = Extension.MIN_TICKS;
     /// schimbam cu valori reale
     static double increment = 0.0;
-
-    /// schimbam cu valori reale
-
-    enum WhatToRetract_intake_sample_init {
-        CLAW, EXTENSION, PIVOT, OVER
-    }
-
     static WhatToRetract_intake_sample_init whatToRetract_intake_sample_init = WhatToRetract_intake_sample_init.CLAW;
-
-    enum FoundAPiece {
-        YES, NO
-    }
-
     static FoundAPiece foundAPiece = FoundAPiece.NO;
-
-    enum WhatToDo_intake_sample_loop {
-        OPEN_CLAW, GET_PIVOT_DOWN, CLOSE_CLAW, GET_PIVOT_UP, RETRACT, OVER
-    }
-
     static WhatToDo_intake_sample_loop whatToDo_intake_sample_loop = WhatToDo_intake_sample_loop.OPEN_CLAW;
 
     public static void general() {
@@ -143,6 +126,20 @@ public class All_modes {
         Pivot.getInstance().loop();
         Claw.getInstance().parallel_to_the_ground_front();
         Claw.getInstance().open_close();
+    }
+
+    /// schimbam cu valori reale
+
+    enum WhatToRetract_intake_sample_init {
+        CLAW, EXTENSION, PIVOT, OVER
+    }
+
+    enum FoundAPiece {
+        YES, NO
+    }
+
+    enum WhatToDo_intake_sample_loop {
+        OPEN_CLAW, GET_PIVOT_DOWN, CLOSE_CLAW, GET_PIVOT_UP, RETRACT, OVER
     }
 
 

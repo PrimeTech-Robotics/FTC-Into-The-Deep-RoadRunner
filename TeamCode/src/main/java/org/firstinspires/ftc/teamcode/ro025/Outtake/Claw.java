@@ -7,18 +7,6 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.ro025.Gamepad.GamepadClass;
 
 public class Claw {
-    private static Claw instance = null;
-    public Servo openingServo = null;
-    Servo rotationServo = null;
-    Servo frontBackServo_left = null;
-    Servo frontBackServo_right = null;
-
-    enum OpenState {
-        OPEN, CLOSED
-    }
-
-    OpenState openState = OpenState.CLOSED;
-
     // Servo positions
     // TODO: Adjust with actual positions
     public static final double OPEN_POS = 1.0;
@@ -33,6 +21,12 @@ public class Claw {
     /// schimbam cu valori reale
 
     public static final double ROTATION_INIT = 0.0;
+    private static Claw instance = null;
+    public Servo openingServo = null;
+    Servo rotationServo = null;
+    Servo frontBackServo_left = null;
+    Servo frontBackServo_right = null;
+    OpenState openState = OpenState.CLOSED;
 
     /// schimbam cu valori reale
 
@@ -107,6 +101,10 @@ public class Claw {
 
     public void rotate(double angle) {
         rotationServo.setPosition(angle);
+    }
+
+    enum OpenState {
+        OPEN, CLOSED
     }
 }
 

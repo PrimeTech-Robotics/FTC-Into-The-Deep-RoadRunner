@@ -7,14 +7,12 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.ro025.Gamepad.GamepadClass;
 
 public class Hang {
-    private static Hang instance = null;
-
-    Servo leftHangServo = null;
-    Servo rightHangServo = null;
-
     public static final double OPEN_POS = 1.0;
     /// schimbam cu valori reale
     public static final double CLOSED_POS = 0.0;
+    private static Hang instance = null;
+    Servo leftHangServo = null;
+    Servo rightHangServo = null;
 
     /// schimbam cu valori reale
 
