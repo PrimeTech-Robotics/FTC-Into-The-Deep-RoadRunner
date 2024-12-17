@@ -74,11 +74,11 @@ public class All_modes {
                 Extension.getInstance().run_to_target(extensionTarget);
                 extensionTarget += increment;
 
-                if (/**codu lu tudi de gasit piesa*/) {
-                    foundAPiece = FoundAPiece.YES;
-                    whatToDo_intake_sample_loop = WhatToDo_intake_sample_loop.OPEN_CLAW;
-                }
-                break;
+//                if (/**codu lu tudi de gasit piesa*/) {
+//                    foundAPiece = FoundAPiece.YES;
+//                    whatToDo_intake_sample_loop = WhatToDo_intake_sample_loop.OPEN_CLAW;
+//                }
+//                break;
             case YES:
                 switch (whatToDo_intake_sample_loop) {
                     case OPEN_CLAW:
@@ -86,15 +86,15 @@ public class All_modes {
                         whatToDo_intake_sample_loop = WhatToDo_intake_sample_loop.GET_PIVOT_DOWN;
                         break;
                     case GET_PIVOT_DOWN:
-                        Claw.getInstance().rotate(/**codu lu tudi de rotatire*/);
+//                        Claw.getInstance().rotate(/**codu lu tudi de rotatire*/);
                         Pivot.getInstance().run_to_target(pivotTarget);
                         Claw.getInstance().perpendicular_on_the_ground();
                         pivotTarget -= increment;
 
-                        if (/**cod tudi de distanta*/) {
-                            whatToDo_intake_sample_loop = WhatToDo_intake_sample_loop.CLOSE_CLAW;
-                        }
-                        break;
+//                        if (/**cod tudi de distanta*/) {
+//                            whatToDo_intake_sample_loop = WhatToDo_intake_sample_loop.CLOSE_CLAW;
+//                        }
+//                        break;
                     case CLOSE_CLAW:
                         Claw.getInstance().openingServo.setPosition(Claw.CLOSED_POS);
                         whatToDo_intake_sample_loop = WhatToDo_intake_sample_loop.GET_PIVOT_UP;
